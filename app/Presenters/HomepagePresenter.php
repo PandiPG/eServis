@@ -7,6 +7,14 @@ namespace App\Presenters;
 use Nette;
 
 
-final class HomepagePresenter extends Nette\Application\UI\Presenter
+final class HomepagePresenter extends BasePresenter
 {
+
+	public function renderDefault() {
+		if ($this->user->isLoggedIn()) {
+			echo('Logged - In');
+		} else {
+			$this->redirect('Login:default');
+		}
+	}
 }

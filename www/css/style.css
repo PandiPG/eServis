@@ -1,0 +1,17 @@
+body {
+	justify-content: center;
+}
+
+.section {
+	justify-content: center;
+    width: 80%;
+    margin: auto;
+}
+
+.card {
+	margin-top: 300px;
+}
+
+#middle {
+	margin-top: 10rem;
+}
