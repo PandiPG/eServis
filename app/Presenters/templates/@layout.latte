@@ -20,12 +20,15 @@
 				<li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
 				<li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
 				<li><a href="#" class="nav-link px-2 link-dark">About</a></li>
-			</ul>               
+			</ul>
+			<div class='d-flex justify-content-end'>               
 				{if $user->isLoggedIn()}
 					<a class="nav-link" n:href="Login:out">Odhlásit</a>                      
 				{else}
 					<a class="nav-link" n:href="Login:">Přihlášení</a>
-				{/if}
+				{/if} 
+				<a class="nav-link" n:href="Login:registration">Registrace</a>
+			</div>
 	</div>
     </header>
 	<div class="d-flex justify-content-center" id="middle">

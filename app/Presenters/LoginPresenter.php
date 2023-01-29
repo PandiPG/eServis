@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
-use App\Models\DatabaseModel;
+use App\Model\DatabaseModel;
 use Nette\Application\UI\Form;
 use Nette\Security\Passwords;
 
@@ -18,22 +18,17 @@ final class LoginPresenter extends BasePresenter
 		$this->model = $model;
 		$this->passwords = $passwords;
 	}
-	
+
 	public function renderRegistration()
-	{		
+	{
 		$this->createComponentRegistration();
 	}
 
-	public function renderDefault($database)
+	public function renderDefault()
 	{
-
-		bdump('FUCK');
-		$user = $this->model->getUser();
-		bdump($user);
 		//if (!$this->user->isLoggedIn()) {
 		//	$this->redirect('Login:registration');
 		//}
-
 		$this->createComponentLogin();
 	}
 
@@ -41,8 +36,18 @@ final class LoginPresenter extends BasePresenter
 	public function createComponentRegistration(): Form
 	{
 		$form = new Form;
-		$form->addText('name', 'Jméno:');
-		$form->addPassword('password', 'Heslo:');
+		$form->addText('name', 'Jméno:')
+			->setRequired('Zadajte prosím %label')
+			->addRule($form::MIN_LENGTH, '%label musi mít elspoň %d znaku', 5);
+		//->addCondition($form::MIN_LENGTH, 5)
+		//	->addRule($form::PATTERN, '%label musí obsahovat velké i malé písmo', '(?=.*[a-z])(?=.*[A-Z])');
+		$form->addPassword('password', 'Heslo:')
+			->setRequired('Zadajte prosím %label')
+			->addRule($form::MIN_LENGTH, '%label musí obsahovat alespon %d znaku', 8)
+			->addCondition($form::MIN_LENGTH, 8);
+		//->addRule($form::PATTERN, '%label musí obsahovat velké i malé písmo', '^[a-zA-Z]$')
+		//->addCondition($form::PATTERN, '^[a-zA-Z]*$')
+		//	->addRule($form::PATTERN, '%label musí obsahovat číslici', '.*[0-9].*');
 		$form->addSubmit('send', 'Registrovat');
 		$form->onSuccess[] = [$this, 'formRegSended'];
 		return $form;
@@ -50,13 +55,30 @@ final class LoginPresenter extends BasePresenter
 
 	public function formRegSended($form, $values)
 	{
-		$passwords = new Passwords(PASSWORD_BCRYPT, ['cost' => 12]);
-		bdump($_POST);
+
 		$values = $form->getValues();
-		$values['password'] = $this->passwords->hash($values['password']);
-		bdump($values['password']);
-		$res = $this->model->putUser($values['name'], $values['password']);
-		bdump($res);
+		bdump($values);
+		$user = $this->model->findUser($values['name']);
+		bdump($user);
+
+		if ( empty($user) ) {
+			bdump($user);
+			$values['password'] = $this->passwords->hash($values['password']);
+			$res = $this->model->putUser($values['name'], $values['password']);
+
+		}else if (isset($user['jmeno']) && $user['jmeno'] !== $values['name']) {
+			//$passwords = new Passwords(PASSWORD_BCRYPT, ['cost' => 12]);
+			//bdump($_POST);
+			$values = $form->getValues();
+			$values['password'] = $this->passwords->hash($values['password']);
+			//bdump($values['password']);
+			$res = $this->model->putUser($values['name'], $values['password']);
+			//bdump($res);
+			$this->flashMessage('Registrace byla úspěšná.');
+			$this->redirect('Login:');
+		} else {
+			$this->flashMessage('Uživatelské jméno již existue, zvolte jinou.');
+		}
 	}
 	//ATCSINALNI DATABASEMODELRE - MEGCSINALNI A REGISTRACIOT (MEGMONDANI H MINDENI OK) - ES A BEJELENTKEZEST
 	public function createComponentLogIn(): Form
@@ -74,13 +96,25 @@ final class LoginPresenter extends BasePresenter
 		bdump($_POST);
 		$values = $form->getValues();
 		bdump($values);
-		try {
-			$this->getUser()->login($values['name'], $values['password']);
-			$this->flashMessage('Prihlaseni bylo uspěšné');
-			$this->redirect('Homepage:');
-		} catch (Nette\Security\AuthenticationException $e) {
-			bdump($e);
-			$this->flashMessage('Nespravne jmeno nebo helso');
-		}
+		//bdump($this->model->findUser($values['name']));
+		//$users = $this->model->getUser($values['name']);
+		//foreach ($users as $user) {
+		//	if ($values['name'] !== $user['jmeno']) {
+		//		$this->flashMessage('Užiatel neexistuje');
+		//	} else {
+		//		$hash = $this->model->getUser($values['name']);
+		//		$hash = $hash[0]['heslo'];
+		//		if ($this->passwords->verify($values['password'], $hash)) {
+		//			try {
+		//				$this->getUser()->login($values['name'], $values['password']);
+		//				$this->flashMessage('Prihlaseni bylo uspěšné');
+		//				$this->redirect('Homepage:');
+		//			} catch (\Nette\Security\AuthenticationException $e) {
+		//				bdump($e);
+		//				$this->flashMessage('Nespravne jmeno nebo helso');
+		//			}
+		//		}
+		//	}
+		//}
 	}
 }

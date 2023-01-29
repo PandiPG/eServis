@@ -8,4 +8,4 @@ search:
 
 services:
 	- App\Router\RouterFactory::createRouter
-	- App\Models\DatabaseModel
+	- App\Model\DatabaseModel

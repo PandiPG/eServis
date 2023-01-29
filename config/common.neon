@@ -15,10 +15,3 @@ di:
 	export:
 		parameters: no
 		tags: no
-
-
-
-security:
-	users:
-		# jméno: heslo
-		gabi: test
