@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
-use App\Models\LoginModel;
+use App\Models\DatabaseModel;
 use Nette\Application\UI\Form;
+use Nette\Security\Passwords;
 
 final class LoginPresenter extends BasePresenter
 {
-	private LoginModel $model;
-
-	public function __construct(LoginModel $model)
+	/** @var Passwords */
+	private Passwords $passwords;
+	private  DatabaseModel $model;
+	public function __construct(DatabaseModel $model, Passwords	$passwords)
 	{
 		$this->model = $model;
+		$this->passwords = $passwords;
 	}
 	
 	public function renderRegistration()
@@ -47,9 +50,11 @@ final class LoginPresenter extends BasePresenter
 
 	public function formRegSended($form, $values)
 	{
+		$passwords = new Passwords(PASSWORD_BCRYPT, ['cost' => 12]);
 		bdump($_POST);
 		$values = $form->getValues();
-		bdump($values);
+		$values['password'] = $this->passwords->hash($values['password']);
+		bdump($values['password']);
 		$res = $this->model->putUser($values['name'], $values['password']);
 		bdump($res);
 	}
