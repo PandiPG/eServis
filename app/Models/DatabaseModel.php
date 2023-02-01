@@ -14,16 +14,20 @@ final class DatabaseModel {
 		$this->database = $database;
 	}
 
-	public function getUser()
+	public function getUser($name)
 	{
 		$res = $this->database->fetchAll('SELECT * FROM user');
 		foreach ($res as $row) {
 			$username = $row->jmeno;
 			 $pass = $row->heslo;
 		}
+		
+		if ( is_array($res) && isset($res[0]) ) {
+			return $res[0];
+		} else {
+			return null;
 
-		//$res->getRowCount();
-		return $res;
+		}
 	}
 
 	public function putUser($name, $pass) {
@@ -31,6 +35,23 @@ final class DatabaseModel {
 			'jmeno' => $name,
 			'heslo' => $pass,
 		]);
+
+	}
+
+	public function findUser($name)
+	{
+		$res = $this->database->fetchAll('SELECT * FROM user WHERE jmeno= ?', $name);
+		foreach ($res as $row) {
+			$username = $row->jmeno;
+			 $pass = $row->heslo;
+		}
+
+		if ( is_array($res) && isset($res[0]) ) {
+			return $res[0];
+		} else {
+			return null;
+
+		}
 	}
 }
 

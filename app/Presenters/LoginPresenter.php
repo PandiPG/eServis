@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
-use App\Model\DatabaseModel;
+use App\Models\Authenticator;
+use App\Models\DatabaseModel;
 use Nette\Application\UI\Form;
+use Nette\Security\Authenticator as SecurityAuthenticator;
 use Nette\Security\Passwords;
 
 final class LoginPresenter extends BasePresenter
@@ -13,10 +15,13 @@ final class LoginPresenter extends BasePresenter
 	/** @var Passwords */
 	private Passwords $passwords;
 	private  DatabaseModel $model;
-	public function __construct(DatabaseModel $model, Passwords	$passwords)
+	private SecurityAuthenticator $authenticator;
+
+	public function __construct(DatabaseModel $model, Passwords	$passwords, Authenticator $authenticator)
 	{
 		$this->model = $model;
 		$this->passwords = $passwords;
+		$this->authenticator = $authenticator;
 	}
 
 	public function renderRegistration()
@@ -38,9 +43,9 @@ final class LoginPresenter extends BasePresenter
 		$form = new Form;
 		$form->addText('name', 'Jméno:')
 			->setRequired('Zadajte prosím %label')
-			->addRule($form::MIN_LENGTH, '%label musi mít elspoň %d znaku', 5);
-		//->addCondition($form::MIN_LENGTH, 5)
-		//	->addRule($form::PATTERN, '%label musí obsahovat velké i malé písmo', '(?=.*[a-z])(?=.*[A-Z])');
+			->addRule($form::MIN_LENGTH, '%label musi mít elspoň %d znaku', 5)
+			->addCondition($form::MIN_LENGTH, 5)
+			->addRule($form::PATTERN, '%label musí obsahovat velké i malé písmo', '^(?=.*[^a-z]$)(?=.*[^A-Z$])$');
 		$form->addPassword('password', 'Heslo:')
 			->setRequired('Zadajte prosím %label')
 			->addRule($form::MIN_LENGTH, '%label musí obsahovat alespon %d znaku', 8)
@@ -93,28 +98,32 @@ final class LoginPresenter extends BasePresenter
 
 	public function formLogInSended($form, $values)
 	{
+		//bdump($_SESSION);
 		bdump($_POST);
 		$values = $form->getValues();
 		bdump($values);
-		//bdump($this->model->findUser($values['name']));
-		//$users = $this->model->getUser($values['name']);
-		//foreach ($users as $user) {
-		//	if ($values['name'] !== $user['jmeno']) {
-		//		$this->flashMessage('Užiatel neexistuje');
-		//	} else {
-		//		$hash = $this->model->getUser($values['name']);
-		//		$hash = $hash[0]['heslo'];
-		//		if ($this->passwords->verify($values['password'], $hash)) {
-		//			try {
-		//				$this->getUser()->login($values['name'], $values['password']);
-		//				$this->flashMessage('Prihlaseni bylo uspěšné');
-		//				$this->redirect('Homepage:');
-		//			} catch (\Nette\Security\AuthenticationException $e) {
-		//				bdump($e);
-		//				$this->flashMessage('Nespravne jmeno nebo helso');
-		//			}
-		//		}
-		//	}
-		//}
+		//$user = $this->model->findUser($values['name']);
+		$user = $this->authenticator->authenticate($values['name'], $values['password']);
+
+
+		bdump($user);
+			//if ($values['name'] != $user['roles']['jmeno']) {
+			//	bdump('PINA');
+			//	$this->flashMessage('Užiatel neexistuje');
+			//} else {
+				$hash = $this->model->getUser($values['name']);
+				$hash = $hash['heslo'];
+				//if ($this->passwords->verify($values['password'], $hash)) {
+					try {
+						$this->getUser()->login($values->name, $values->password);
+						$this->flashMessage('Prihlaseni bylo uspěšné');
+						$this->redirect('Homepage:');
+					} catch (\Nette\Security\AuthenticationException $e) {
+						bdump($e);
+						$this->flashMessage('Nespravne jmeno nebo helso');
+					}
+				//}
+			//}
+		
 	}
 }
