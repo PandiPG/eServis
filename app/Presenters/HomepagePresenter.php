@@ -11,6 +11,7 @@ final class HomepagePresenter extends BasePresenter
 {
 
 	public function renderDefault() {
-	
+	bdump('*****');
+	//bdump($this->getPresenter());
 	}
 }

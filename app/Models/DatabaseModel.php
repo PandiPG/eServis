@@ -1,13 +1,14 @@
 <?php
 namespace App\Models;
 
-use Nette\Security\Passwords;
+use Nette\SmartObject;
 
-final class DatabaseModel {
 
-	use \Nette\SmartObject;
+class DatabaseModel {
 
-	private \Nette\Database\Explorer $database;
+	use SmartObject;
+
+	protected \Nette\Database\Explorer $database;
 
 	public function __construct(\Nette\Database\Explorer $database)
 	{

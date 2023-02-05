@@ -31,8 +31,15 @@
 			</div>
 	</div>
     </header>
+	<div class="d-flex justify-content-center" style="width:100%">
+		{foreach $flashes as $flash}
+			{dump $flash}
+			<div class="alert alert-{$flash->type}" role="alert">
+				{$flash->message}
+			</div>
+		{/foreach}
+	</div>
 	<div class="d-flex justify-content-center" id="middle">
-		<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
 		{include content}
 	</div>

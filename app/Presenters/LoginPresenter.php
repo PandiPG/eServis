@@ -31,9 +31,6 @@ final class LoginPresenter extends BasePresenter
 
 	public function renderDefault()
 	{
-		//if (!$this->user->isLoggedIn()) {
-		//	$this->redirect('Login:registration');
-		//}
 		$this->createComponentLogin();
 	}
 
@@ -67,13 +64,9 @@ final class LoginPresenter extends BasePresenter
 		bdump($user);
 
 		if ( empty($user) ) {
-			bdump($user);
 			$values['password'] = $this->passwords->hash($values['password']);
 			$res = $this->model->putUser($values['name'], $values['password']);
-
 		}else if (isset($user['jmeno']) && $user['jmeno'] !== $values['name']) {
-			//$passwords = new Passwords(PASSWORD_BCRYPT, ['cost' => 12]);
-			//bdump($_POST);
 			$values = $form->getValues();
 			$values['password'] = $this->passwords->hash($values['password']);
 			//bdump($values['password']);
@@ -103,24 +96,25 @@ final class LoginPresenter extends BasePresenter
 		$values = $form->getValues();
 		bdump($values);
 		//$user = $this->model->findUser($values['name']);
-		$user = $this->authenticator->authenticate($values['name'], $values['password']);
+		//$user = $this->authenticator->authenticate($values['name'], $values['password']);
 
 
-		bdump($user);
+		//bdump($user);
 			//if ($values['name'] != $user['roles']['jmeno']) {
 			//	bdump('PINA');
 			//	$this->flashMessage('Užiatel neexistuje');
 			//} else {
-				$hash = $this->model->getUser($values['name']);
-				$hash = $hash['heslo'];
+				//$hash = $this->model->getUser($values['name']);
+				//$hash = $hash['heslo'];
 				//if ($this->passwords->verify($values['password'], $hash)) {
 					try {
 						$this->getUser()->login($values->name, $values->password);
-						$this->flashMessage('Prihlaseni bylo uspěšné');
+						$this->flashMessage('Prihlaseni bylo uspěšné', 'success');
 						$this->redirect('Homepage:');
 					} catch (\Nette\Security\AuthenticationException $e) {
 						bdump($e);
-						$this->flashMessage('Nespravne jmeno nebo helso');
+						$this->flashMessage($e->getMessage(), 'danger');
+						//$this->flashMessage('Nespravne jmeno nebo helso');
 					}
 				//}
 			//}

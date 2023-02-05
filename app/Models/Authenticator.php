@@ -5,11 +5,12 @@ namespace App\Models;
 
 use Nette;
 use Nette\Security\SimpleIdentity;
+use Nette\SmartObject;
 
-class Authenticator implements Nette\Security\Authenticator
+final class Authenticator implements Nette\Security\Authenticator
 {
-	public $database;
-	public $passwords;
+	private $database;
+	private $passwords;
 
 	public function __construct(Nette\Database\Explorer $database, Nette\Security\Passwords $passwords) {
 		$this->database = $database;
@@ -21,15 +22,15 @@ class Authenticator implements Nette\Security\Authenticator
 		$row = $this->database->table('user')
 			->where('jmeno', $user)
 			->fetch();
-		bdump($row);
 
 			if (!$row) {
-				throw new Nette\Security\AuthenticationException('Použivatelske jmeno se nenašlo');
+				throw new Nette\Security\AuthenticationException('Použivatelske jmeno neexistuje');
+			} elseif (!$this->passwords->verify($password, $row->heslo)) {
+				throw new Nette\Security\AuthenticationException('Heslo není správně');
 			}
+			
 
-			if (!$this->passwords->verify($password, $row->heslo)) {
-				throw new Nette\Security\AuthenticationException('Špatné heslo!');
-			}
+			
 
 			return new SimpleIdentity(
 				$row->id,
