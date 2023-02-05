@@ -54,6 +54,6 @@ final class HomepagePresenter extends BasePresenter
 		$user = $this->user->identity;$res = $this->model->createGarage($values['name'], $user->id );
 		bdump($res);
 		$this->redirect('this');
-		
+
 	}
 }
