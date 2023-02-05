@@ -23,7 +23,7 @@
 			</ul>
 			<div class='d-flex justify-content-end'>               
 				{if $user->isLoggedIn()}
-					<a class="nav-link" n:href="Login:out">Odhlásit</a>                      
+					<a class="nav-link" n:href="Homepage:out">Odhlásit</a>
 				{else}
 					<a class="nav-link" n:href="Login:">Přihlášení</a>
 				{/if} 
@@ -33,7 +33,6 @@
     </header>
 	<div class="d-flex justify-content-center" style="width:100%">
 		{foreach $flashes as $flash}
-			{dump $flash}
 			<div class="alert alert-{$flash->type}" role="alert">
 				{$flash->message}
 			</div>

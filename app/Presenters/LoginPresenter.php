@@ -14,7 +14,9 @@ final class LoginPresenter extends BasePresenter
 {
 	/** @var Passwords */
 	private Passwords $passwords;
+	/** @var DatabaseModel */
 	private  DatabaseModel $model;
+
 	private SecurityAuthenticator $authenticator;
 
 	public function __construct(DatabaseModel $model, Passwords	$passwords, Authenticator $authenticator)
@@ -34,15 +36,15 @@ final class LoginPresenter extends BasePresenter
 		$this->createComponentLogin();
 	}
 
-
+	//			REGISTRACE
 	public function createComponentRegistration(): Form
 	{
 		$form = new Form;
 		$form->addText('name', 'Jméno:')
 			->setRequired('Zadajte prosím %label')
 			->addRule($form::MIN_LENGTH, '%label musi mít elspoň %d znaku', 5)
-			->addCondition($form::MIN_LENGTH, 5)
-			->addRule($form::PATTERN, '%label musí obsahovat velké i malé písmo', '^(?=.*[^a-z]$)(?=.*[^A-Z$])$');
+			->addCondition($form::MIN_LENGTH, 5);
+			//->addRule($form::PATTERN, '%label musí obsahovat velké i malé písmo', '^(?=.*[^a-z]$)(?=.*[^A-Z$])$');
 		$form->addPassword('password', 'Heslo:')
 			->setRequired('Zadajte prosím %label')
 			->addRule($form::MIN_LENGTH, '%label musí obsahovat alespon %d znaku', 8)
@@ -57,11 +59,8 @@ final class LoginPresenter extends BasePresenter
 
 	public function formRegSended($form, $values)
 	{
-
 		$values = $form->getValues();
-		bdump($values);
 		$user = $this->model->findUser($values['name']);
-		bdump($user);
 
 		if ( empty($user) ) {
 			$values['password'] = $this->passwords->hash($values['password']);
@@ -69,16 +68,15 @@ final class LoginPresenter extends BasePresenter
 		}else if (isset($user['jmeno']) && $user['jmeno'] !== $values['name']) {
 			$values = $form->getValues();
 			$values['password'] = $this->passwords->hash($values['password']);
-			//bdump($values['password']);
 			$res = $this->model->putUser($values['name'], $values['password']);
-			//bdump($res);
 			$this->flashMessage('Registrace byla úspěšná.');
 			$this->redirect('Login:');
 		} else {
 			$this->flashMessage('Uživatelské jméno již existue, zvolte jinou.');
 		}
 	}
-	//ATCSINALNI DATABASEMODELRE - MEGCSINALNI A REGISTRACIOT (MEGMONDANI H MINDENI OK) - ES A BEJELENTKEZEST
+
+	//			PRIHLASENI
 	public function createComponentLogIn(): Form
 	{
 		$form = new Form;
@@ -91,33 +89,24 @@ final class LoginPresenter extends BasePresenter
 
 	public function formLogInSended($form, $values)
 	{
-		//bdump($_SESSION);
-		bdump($_POST);
 		$values = $form->getValues();
-		bdump($values);
-		//$user = $this->model->findUser($values['name']);
-		//$user = $this->authenticator->authenticate($values['name'], $values['password']);
-
-
-		//bdump($user);
-			//if ($values['name'] != $user['roles']['jmeno']) {
-			//	bdump('PINA');
-			//	$this->flashMessage('Užiatel neexistuje');
-			//} else {
-				//$hash = $this->model->getUser($values['name']);
-				//$hash = $hash['heslo'];
-				//if ($this->passwords->verify($values['password'], $hash)) {
-					try {
-						$this->getUser()->login($values->name, $values->password);
-						$this->flashMessage('Prihlaseni bylo uspěšné', 'success');
-						$this->redirect('Homepage:');
-					} catch (\Nette\Security\AuthenticationException $e) {
-						bdump($e);
-						$this->flashMessage($e->getMessage(), 'danger');
-						//$this->flashMessage('Nespravne jmeno nebo helso');
-					}
-				//}
-			//}
-		
+		try {
+			$this->user->login($values->name, $values->password);
+			$this->user->setExpiration('30 minutes');
+			$this->flashMessage('Prihlaseni bylo uspěšné', 'success');
+			$this->redirect('Homepage:');
+		} catch (\Nette\Security\AuthenticationException $e) {
+			bdump($e);
+			$this->flashMessage($e->getMessage(), 'danger');
+		}		
 	}
+
+	//			ODHLASENI
+	//public function actionOut()
+	//{
+	//	bdump('actionOut');
+	//	$this->user->logout(true);
+	//	$this->flashMessage('Odlášení bylo úspěnšé.');
+	//	$this->redirect('Login:');
+	//}
 }

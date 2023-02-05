@@ -19,4 +19,13 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 			$this->redirect('Homepage:');
 		}
     }
+
+	//			ODHLASENI
+	public function actionOut()
+	{
+		bdump('actionOut');
+		$this->user->logout(true);
+		$this->flashMessage('Odlášení bylo úspěnšé.');
+		$this->redirect('Login:');
+	}
 }

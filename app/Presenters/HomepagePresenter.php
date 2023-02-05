@@ -14,4 +14,13 @@ final class HomepagePresenter extends BasePresenter
 	bdump('*****');
 	//bdump($this->getPresenter());
 	}
+
+		//			ODHLASENI
+	public function actionOut()
+	{
+		bdump('actionOut');
+		$this->user->logout(true);
+		$this->flashMessage('Odlášení bylo úspěnšé.');
+		$this->redirect('Login:');
+	}
 }

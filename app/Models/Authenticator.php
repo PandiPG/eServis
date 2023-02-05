@@ -27,15 +27,11 @@ final class Authenticator implements Nette\Security\Authenticator
 				throw new Nette\Security\AuthenticationException('Použivatelske jmeno neexistuje');
 			} elseif (!$this->passwords->verify($password, $row->heslo)) {
 				throw new Nette\Security\AuthenticationException('Heslo není správně');
-			}
-			
-
-			
+			}		
 
 			return new SimpleIdentity(
 				$row->id,
 				['jmeno' => $row->jmeno],
 			);
-
 	}
 }
