@@ -1,2 +1,18 @@
 {block content}
-<h2>Homepage</h2>
+<div class="garage" style="width100%;margin-top:3rem;">
+{dump $garage}
+
+	{if $garage === null}
+		<h3>Vytvořit garáž</h3>
+		<div class="form" style="margin-top:10rem;">
+			{control createGarage}
+	{else}
+		<h3>Vaše garáže</h3>
+		{foreach $garage as $key => $gar}
+			<p>{$gar['jmeno']}</p>
+		{/foreach}
+{/if}
+  
+</div>
+
+

@@ -42,7 +42,7 @@ final class LoginPresenter extends BasePresenter
 		$form = new Form;
 		$form->addText('name', 'Jméno:')
 			->setRequired('Zadajte prosím %label')
-			->addRule($form::MIN_LENGTH, '%label musi mít elspoň %d znaku', 5)
+			->addRule($form::MIN_LENGTH, '%label musi mít elespoň %d znaku', 5)
 			->addCondition($form::MIN_LENGTH, 5);
 			//->addRule($form::PATTERN, '%label musí obsahovat velké i malé písmo', '^(?=.*[^a-z]$)(?=.*[^A-Z$])$');
 		$form->addPassword('password', 'Heslo:')

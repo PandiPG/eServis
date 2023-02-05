@@ -54,6 +54,25 @@ class DatabaseModel {
 
 		}
 	}
+
+	public function getGarage($id) 
+	{
+		$garages =  $this->database->fetchAll('SELECT * FROM muj_garaz WHERE user_id= ?', $id);
+		foreach ( $garages as $garage) {
+			$garageName = $garage->jmeno;
+		}
+		bdump($garages);
+			return $garages;
+	
+	}
+
+	public function createGarage($jmeno, $id)
+	{
+		return $this->database->query('INSERT INTO muj_garaz', [
+			'jmeno' => $jmeno,
+			'user_id' => $id
+		]);
+	}
 }
 
 ?>
