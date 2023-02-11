@@ -9,7 +9,7 @@
 	{else}
 		<h3>Vaše garáže</h3>
 		{foreach $garage as $key => $gar}
-			<p>{$gar['jmeno']}</p>
+			<a n:href="Garage:default $gar->id">{$gar->jmeno}</a>
 		{/foreach}
 {/if}
   

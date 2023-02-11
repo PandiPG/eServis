@@ -19,12 +19,9 @@ final class HomepagePresenter extends BasePresenter
 	}
 
 	public function renderDefault() {
-	bdump('*****');
-	bdump($this->user->identity->id);
 	$garage = $this->model->getGarage($this->user->identity->id);
 	
 	$this->template->garage = $garage;
-	//bdump($this->getPresenter());
 	}
 
 		//			ODHLASENI
@@ -40,8 +37,8 @@ final class HomepagePresenter extends BasePresenter
 	{
 		$form = new Form;
 		$form->addText('name', 'Jmémo')
-			->setRequired('Tadajte jmeno Garaze')
-			->addRule($form::MIN_LENGTH, '%labe mamít alespoň %d znaku', 4);
+			->setRequired('Zadajte jméno garáže')
+			->addRule($form::MIN_LENGTH, '%labe musí mít alespoň %d znaku', 4);
 		$form->addSubmit('send', 'Vytvořit');
 		$form->onSuccess[] = [$this, 'formCreateGarage'];
 		return $form;

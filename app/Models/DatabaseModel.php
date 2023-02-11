@@ -62,7 +62,7 @@ class DatabaseModel {
 			$garageName = $garage->jmeno;
 		}
 		bdump($garages);
-			return $garages;
+		return $garages;
 	
 	}
 
@@ -73,6 +73,34 @@ class DatabaseModel {
 			'user_id' => $id
 		]);
 	}
+
+	public function getVehicles($garageId)
+	{
+		$vehicles =  $this->database->fetchAll('SELECT * FROM vozidlo WHERE muj_garaz_id=?', $garageId);
+		foreach ( $vehicles as $vehicle ) {
+			$vehicleName = $vehicle->jmeno;
+		}
+		return $vehicles;
+	}
+
+	
+	public function getManufacturers()
+	{
+		$manufacturers = [];//$this->database->fetchAll('SELECT * FROM vyrobce');
+		foreach ( $this->database->table('vyrobce')->fetchAll() as $row) {
+			$manufacturers[$row->id] = $row->nazev;
+		}
+		return $manufacturers;
+	}
+	public function getModels($manufakturer)
+	{
+		$manufacturers = [];//$this->database->fetchAll('SELECT * FROM vyrobce');
+		foreach ( $this->database->table('vyrobce')->fetchAll() as $row) {
+			$manufacturers[$row->id] = $row->nazev;
+		}
+		return $manufacturers;
+	}
+	
 }
 
 ?>
