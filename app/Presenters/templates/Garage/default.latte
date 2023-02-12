@@ -12,7 +12,7 @@
 		let parentSelect = childSelect.form[childSelect.dataset.depends];
 		let url = childSelect.dataset.url;
 		let items = JSON.parse(childSelect.dataset.items || 'null');
-		
+
 		parentSelect.addEventListener('change', () => {
 			if (items) {
 				updateSelectbox(childSelect, items[parentSelect.value]);
@@ -28,14 +28,15 @@
 
 function updateSelectbox(select, items)
 {
-	select.innerHtml = '';
-	for (let id in items) {
-		let el = document.createElement('option');
-		el.setAttribute('value', id);
-		el.innerText = items[id];
-		select.appendChild(el);
-	}
+    select.innerHTML = '';
+    for (let id in items) {
+        let el = document.createElement('option');
+        el.setAttribute('value', id);
+        el.innerText = items[id];
+        select.appendChild(el);
+    }
 }
+
 
 
 
