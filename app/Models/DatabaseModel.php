@@ -92,13 +92,19 @@ class DatabaseModel {
 		}
 		return $manufacturers;
 	}
-	public function getModels($manufakturer)
+	public function getModels($manufakturerId)
 	{
-		$manufacturers = [];//$this->database->fetchAll('SELECT * FROM vyrobce');
-		foreach ( $this->database->table('vyrobce')->fetchAll() as $row) {
-			$manufacturers[$row->id] = $row->nazev;
+		$models = $this->database->fetchAll('SELECT * FROM model where vyrobce_id=?', $manufakturerId);
+		foreach ( $models as $row) {
+			$models[$row->id] = $row->nazev;
 		}
-		return $manufacturers;
+		foreach ($models as $row => $data ) {
+			if ( !is_string($data) ) {
+				unset($models[$row]);
+			} 
+		}
+		bdump($models);
+		return $models;
 	}
 	
 }

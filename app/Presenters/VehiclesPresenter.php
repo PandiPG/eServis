@@ -6,9 +6,8 @@ namespace App\Presenters;
 
 use Nette;
 use App\Models\DatabaseModel;
-use Nette\Application\UI\Form;
 
-final class HomepagePresenter extends BasePresenter
+final class VehiclesPresenter extends BasePresenter
 {
 
 	private DatabaseModel $model;
@@ -18,9 +17,9 @@ final class HomepagePresenter extends BasePresenter
 		$this->model = $model;
 	}
 
-	public function actionModels($manufakturer): void
+	public function actionModels($manufacturerId): void
 	{
-		$models = $this->model->getModels($manufakturer);
+		$models = $this->model->getModels($manufacturerId);
 		$this->sendJson($models);
 	}
 

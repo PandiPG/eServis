@@ -26,14 +26,25 @@ final class GaragePresenter extends BasePresenter
 	public function createComponentAddVehicle(): Form
 	{
 		$form = new Form;
+		
 		$form->addText('name', 'Jméno')
 			->setRequired('%label je povinní pole.')
 			->addRule($form::MIN_LENGTH, '%label musí mít alespoň %d znaku.', 2);
-		$form->addSelect('manufacturer', 'Výrobce', $this->model->getManufacturer())
+		
+		
+		$manufacturer = $form->addSelect('manufacturer', 'Výrobce', $this->model->getManufacturers())
 			->setPrompt('Vyberte výrobce');
-		$form->addText('model', 'Model')
-			->setRequired('%label je povinní pole.')
-			->addRule($form::MIN_LENGTH, '%label musí mít alespoň %d znaku.', 2);
+		$models = $form->addSelect('models', 'Models')
+			->setHtmlAttribute('data-depends', $manufacturer->getHtmlName())
+			->setHtmlAttribute('data-url', $this->link('Vehicles:models', '#'))
+			->setPrompt('Vyberte model');
+		$form->onAnchor[] = fn() => 
+			$models->setItems($manufacturer->getValue()
+			? $this->model->getModels($manufacturer->getValue())
+			:[]);
+		
+
+		
 		$form->addText('typeKod', 'Radovy kod')
 			->addRule($form::MIN_LENGTH, '%label musí mít alespoň %d znaku.', 2);
 		$form->addText('ccm', 'Obsah motoru')
@@ -52,6 +63,7 @@ final class GaragePresenter extends BasePresenter
 		$form->addSubmit('addVehicle', 'Přidat');
 		$form->onSuccess[] = [$this, 'formAddVehicle'];
 		return $form;
+		
 	}
 
 	public function formAddVehicle($form, $values)
