@@ -83,18 +83,34 @@ class DatabaseModel {
 		return $vehicles;
 	}
 
-	
-	public function getManufacturers()
+	public function getCategories()
 	{
-		$manufacturers = [];//$this->database->fetchAll('SELECT * FROM vyrobce');
-		foreach ( $this->database->table('vyrobce')->fetchAll() as $row) {
+		$categories = [];
+		foreach ( $this->database->table('kategoria')->fetchAll() as $row ) {
+			$categories[$row->id] = $row->nazev;
+		}
+		return $categories;
+	}
+
+	public function getManufacturers($categoryId)
+	{
+		$manufacturers = $this->database->fetchAll('SELECT id,nazev FROM vyrobce WHERE kategorie_id=?', $categoryId);
+		foreach ( $manufacturers as $row) {
 			$manufacturers[$row->id] = $row->nazev;
 		}
+		foreach ($manufacturers as $row => $data ) {
+			if ( !is_string($data) ) {
+				unset($manufacturers[$row]);
+			} 
+		}
+
+		$manufacturers[0] = 'Vyberte výrobce';
 		return $manufacturers;
 	}
+
 	public function getModels($manufakturerId)
 	{
-		$models = $this->database->fetchAll('SELECT * FROM model where vyrobce_id=?', $manufakturerId);
+		$models = $this->database->fetchAll('SELECT * FROM model WHERE vyrobce_id=?', $manufakturerId);
 		foreach ( $models as $row) {
 			$models[$row->id] = $row->nazev;
 		}
@@ -103,8 +119,18 @@ class DatabaseModel {
 				unset($models[$row]);
 			} 
 		}
+		$models[0] = 'Vyberte model';
 		bdump($models);
 		return $models;
+	}
+
+	public function getCcm()
+	{
+		$ccms = [];//$this->database->fetchAll('SELECT id,oznaceni FROM ccm');
+		foreach ( $this->database->table('ccm')->fetchAll() as $row)  {
+			$ccms[$row->id] = $row->oznaceni;
+		}
+		return $ccms;
 	}
 	
 }

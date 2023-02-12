@@ -17,6 +17,11 @@ final class VehiclesPresenter extends BasePresenter
 		$this->model = $model;
 	}
 
+	public function actionManufacturers($categoryId): void
+	{
+		$manufacturers = $this->model->getManufacturers($categoryId);
+		$this->sendJson($manufacturers);
+	}
 	public function actionModels($manufacturerId): void
 	{
 		$models = $this->model->getModels($manufacturerId);
