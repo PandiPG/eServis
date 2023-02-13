@@ -54,20 +54,25 @@ final class GaragePresenter extends BasePresenter
 			$models->setItems($manufacturer->getValue()
 			? $this->model->getModels($manufacturer->getValue())
 			:[]);
-		//zbytek		
-		$form->addText('typeKod', 'Radovy kod:')
+		//zbytek
+		$form->addSelect('year', 'Rok výrovy:', $this->model->getYear())
+			->setRequired('%label je povinní pole.')
+			->setPrompt('Vyberte rok');
+		/*$form->addText('typeKod', 'Radovy kod:')
 			->addRule($form::MIN_LENGTH, '%label musí mít alespoň %d znaku.', 2);
-
+		*/
 		$form->addSelect('ccm', 'Obsah motoru:', $this->model->getCcm())
 			->setRequired('%label je povinní pole.')
 			->setPrompt('Vyberte ccm');
-			//->addRule($form::MIN_LENGTH, '%label musí mít alespoň %d znaku.', 2);
-		$form->addText('transmission', 'Prevodovka:')
+		$form->addSelect('kw', 'Výkon motoru (KW):', $this->model->getKw())
 			->setRequired('%label je povinní pole.')
-			->addRule($form::MIN_LENGTH, '%label musí mít alespoň %d znaku.', 6);
-		$form->addText('fuel', 'Palivo:')
+			->setPrompt('Vyberte výkon');
+		$form->addSelect('transmission', 'Prevodovka:', $this->model->getTransmisson())
 			->setRequired('%label je povinní pole.')
-			->addRule($form::MIN_LENGTH, '%label musí mít alespoň %d znaku.', 3);
+			->setPrompt('Vyberte převodovku');
+		$form->addSelect('fuel', 'Palivo:', $this->model->getFuel())
+			->setRequired('%label je povinní pole.')
+			->setPrompt('Vyberte palivo');
 		$form->addText('vin', 'VIN:')
 			->addRule($form::MIN_LENGTH, '%label musí mít přesne %d znaku.', 17);
 		

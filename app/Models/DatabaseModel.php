@@ -133,6 +133,42 @@ class DatabaseModel {
 		return $ccms;
 	}
 	
+	public function getTransmisson()
+	{
+		$transmissions = [];//$this->database->fetchAll('SELECT id,oznaceni FROM ccm');
+		foreach ( $this->database->table('prevodovka')->fetchAll() as $row)  {
+			$transmissions[$row->id] = $row->nazev;
+		}
+		return $transmissions;
+	}
+
+	public function getFuel()
+	{
+		$fuels = [];//$this->database->fetchAll('SELECT id,oznaceni FROM ccm');
+		foreach ( $this->database->table('palivo')->fetchAll() as $row)  {
+			$fuels[$row->id] = $row->nazev;
+		}
+		return $fuels;
+	}
+
+	public function getYear()
+	{
+		$years = [];//$this->database->fetchAll('SELECT id,oznaceni FROM ccm');
+		foreach ( $this->database->table('rok')->fetchAll() as $row)  {
+			$years[$row->id] = $row->rok;
+		}
+		return $years;
+	}
+	
+	public function getKw()
+	{
+		$kws = [];//$this->database->fetchAll('SELECT id,oznaceni FROM ccm');
+		foreach ( $this->database->table('kw')->fetchAll() as $row)  {
+			$kws[$row->id] = $row->kw;
+		}
+		return $kws;
+	}
+	
 }
 
 ?>
