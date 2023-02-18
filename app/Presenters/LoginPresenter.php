@@ -64,11 +64,11 @@ final class LoginPresenter extends BasePresenter
 
 		if ( empty($user) ) {
 			$values['password'] = $this->passwords->hash($values['password']);
-			$res = $this->model->putUser($values['name'], $values['password']);
+			$res = $this->model->addUser($values['name'], $values['password']);
 		}else if (isset($user['jmeno']) && $user['jmeno'] !== $values['name']) {
 			$values = $form->getValues();
 			$values['password'] = $this->passwords->hash($values['password']);
-			$res = $this->model->putUser($values['name'], $values['password']);
+			$res = $this->model->addUser($values['name'], $values['password']);
 			$this->flashMessage('Registrace byla úspěšná.');
 			$this->redirect('Login:');
 		} else {

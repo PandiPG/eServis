@@ -20,6 +20,12 @@ final class GaragePresenter extends BasePresenter
 	public function renderDefault($garageId)
 	{
 		$vehicles = $this->model->getVehicles($garageId);
+		foreach ($vehicles as $vehicle) {
+			//$vehicle['vyrobce'] = $this->model->getManufcturer($vehicles['vyrobce_id']);
+			//$vehicle['model'] = $this->model->getModel($vehicles['model_id']);
+			$vehicle['data'] = $this->model->getVehicleData($vehicle['vyrobce_id'], $vehicle['model_id']);
+		}
+		bdump($vehicles);
 		$this->template->vehicles = $vehicles;
 	}
 
@@ -86,6 +92,10 @@ final class GaragePresenter extends BasePresenter
 	{
 		$values = $form->getValues();
 		bdump($values);
+		bdump($this->user->identity->id);
+		bdump($this->getParameter('garageId'));
+		$this->model->addCar($values['name'], $values['category'], $values['manufacturer'], $values['models'], $values['year'], $values['ccm'],$values['kw'], $values['transmission'], $values['fuel'], $values['vin'], $this->getParameter('garageId'), $this->user->identity->id);
+		return $form;
 	}
 
 }

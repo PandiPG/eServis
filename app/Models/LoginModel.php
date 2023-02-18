@@ -24,7 +24,7 @@ final class LoginModel {
 		return $res;
 	}
 
-	public function putUser($name, $pass) {
+	public function addUser($name, $pass) {
 		return $this->database->query('INSERT INTO user', [
 			'jmeno' => $name,
 			'heslo' => $pass,

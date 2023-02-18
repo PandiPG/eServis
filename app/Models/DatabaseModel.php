@@ -31,7 +31,7 @@ class DatabaseModel {
 		}
 	}
 
-	public function putUser($name, $pass) {
+	public function addUser($name, $pass) {
 		return $this->database->query('INSERT INTO user', [
 			'jmeno' => $name,
 			'heslo' => $pass,
@@ -61,7 +61,6 @@ class DatabaseModel {
 		foreach ( $garages as $garage) {
 			$garageName = $garage->jmeno;
 		}
-		bdump($garages);
 		return $garages;
 	
 	}
@@ -120,7 +119,6 @@ class DatabaseModel {
 			} 
 		}
 		$models[0] = 'Vyberte model';
-		bdump($models);
 		return $models;
 	}
 
@@ -167,6 +165,32 @@ class DatabaseModel {
 			$kws[$row->id] = $row->kw;
 		}
 		return $kws;
+	}
+
+	public function addCar($name, $category, $manufacturer, $model, $year, $ccm, $kw, $transmission, $fuel, $vin, $garageId, $userId)
+	{
+		return $this->database->query('INSERT INTO vozidlo', [
+			'vin' => $vin,
+			'ccm_id' => $ccm,
+			'kategorie_id' => $category,
+			'user_id' => $userId,
+			'model_id' =>$model,
+			'muj_garaz_id' => $garageId,
+			'palivo_id' => $fuel,
+			'vyrobce_id' => $manufacturer,
+			'prevodovka_id' => $transmission,
+			'jmeno' => $name,
+			'rok_vyroby' => $year,
+			'kw_id' => $kw,
+			]
+		);
+	}
+
+	public function getVehicleData($manufacturerId, $modelId)
+	{
+		$vehiclesdata['vyrobce'] = $this->database->fetch('SELECT nazev FROM vyrobce WHERE id=?', $manufacturerId);		
+		$vehiclesdata['model'] = $this->database->fetch('SELECT nazev FROM model WHERE id=?', $modelId);
+		return $vehiclesdata;		
 	}
 	
 }
