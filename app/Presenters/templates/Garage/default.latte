@@ -10,6 +10,7 @@
 				<th>Jméno</th>
 				<th>Výrobce</th>
 				<th>Model</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -17,10 +18,15 @@
 			{foreach $vehicles as $vehicle}
 				<tr>
 				{dump $vehicle['data']}
-					<td>{$vehicle['jmeno']}</td>
-					<td>{$vehicle['data']['vyrobce']->nazev}</td>
-					<td>{$vehicle['data']['model']->nazev}</td>
-					<td><></td>
+					<td class="w-25 p-3">{$vehicle['jmeno']}</td>
+					<td class="w-25 p-3">{$vehicle['data']['vyrobce']->nazev}</td>
+					<td class="w-25 p-3">{$vehicle['data']['model']->nazev}</td>
+					<td class=" d-flex justify-content-between">
+						<button type="button" class="btn btn-info"><i class="fa-solid fa-info" title="Zobrazit podrobnosti"></i></a></button>
+						<button type="button" class="btn btn-success"><i class="fa-solid fa-wrench" title="Přidat servisní úkon"></i></a></button>
+						<button type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" title="Upravit"></i></button>
+						<button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can" title="Zmazat Vozidlo"></i></button>
+					</td>
 				</tr>
 			{/foreach}
 		</tbody>
