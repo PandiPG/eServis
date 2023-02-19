@@ -26,6 +26,9 @@ final class GaragePresenter extends BasePresenter
 			$vehicle['data'] = $this->model->getVehicleData($vehicle['vyrobce_id'], $vehicle['model_id']);
 		}
 		bdump($vehicles);
+		$garage = $this->model->getGarage($this->getParameter('garageId'));
+		bdump($garage);
+		$this->template->garage = $garage;
 		$this->template->vehicles = $vehicles;
 	}
 
@@ -33,8 +36,7 @@ final class GaragePresenter extends BasePresenter
 	{
 		$form = new Form;
 		//jmeno
-		$form->addText('name', 'Jméno:')
-			->setRequired('%label je povinní pole.')
+		$form->addText('name', 'Jméno:',)
 			->addRule($form::MIN_LENGTH, '%label musí mít alespoň %d znaku.', 2);
 		//katekorie
 		$categories = $form->addSelect('category', 'Kategorie:', $this->model->getCategories())
@@ -79,6 +81,8 @@ final class GaragePresenter extends BasePresenter
 		$form->addSelect('fuel', 'Palivo:', $this->model->getFuel())
 			->setRequired('%label je povinní pole.')
 			->setPrompt('Vyberte palivo');
+		$form->addInteger('km', 'Stav km:')
+			->addRule($form::MAX_LENGTH, '%label muže mít maximálne %d čisla', 6);
 		$form->addText('vin', 'VIN:')
 			->addRule($form::MIN_LENGTH, '%label musí mít přesne %d znaku.', 17);
 		
@@ -97,6 +101,9 @@ final class GaragePresenter extends BasePresenter
 		$this->model->addCar($values['name'], $values['category'], $values['manufacturer'], $values['models'], $values['year'], $values['ccm'],$values['kw'], $values['transmission'], $values['fuel'], $values['vin'], $this->getParameter('garageId'), $this->user->identity->id);
 		return $form;
 	}
+
+
+
 
 }
 ?>

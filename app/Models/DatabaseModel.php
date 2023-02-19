@@ -55,7 +55,7 @@ class DatabaseModel {
 		}
 	}
 
-	public function getGarage($id) 
+	public function getGarages($id) 
 	{
 		$garages =  $this->database->fetchAll('SELECT * FROM muj_garaz WHERE user_id= ?', $id);
 		foreach ( $garages as $garage) {
@@ -63,6 +63,11 @@ class DatabaseModel {
 		}
 		return $garages;
 	
+	}
+
+	public function getGarage($garageId)
+	{
+		return $this->database->fetch('SELECT jmeno FROM muj_garaz WHERE id=?', $garageId);			
 	}
 
 	public function createGarage($jmeno, $id)

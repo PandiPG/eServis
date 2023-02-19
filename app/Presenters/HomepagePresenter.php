@@ -19,9 +19,9 @@ final class HomepagePresenter extends BasePresenter
 	}
 
 	public function renderDefault() {
-	$garage = $this->model->getGarage($this->user->identity->id);
+	$garages = $this->model->getGarages($this->user->identity->id);
 	
-	$this->template->garage = $garage;
+	$this->template->garages = $garages;
 	}
 
 		//			ODHLASENI

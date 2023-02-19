@@ -1,16 +1,35 @@
 {block content}
 <div class="garage" style="width100%;margin-top:3rem;">
-{dump $garage}
 
-	{if $garage === null}
+	{if $garages === null}
 		<h3>Vytvořit garáž</h3>
 		<div class="form" style="margin-top:10rem;">
 			{control createGarage}
 	{else}
 		<h3>Vaše garáže</h3>
-		{foreach $garage as $key => $gar}
-			<a n:href="Garage:default $gar->id">{$gar->jmeno}</a>
-		{/foreach}
+		<table class="table table-borderless">
+			<thead>
+			</thead>
+			<tbody>
+				
+					<tr>
+					{foreach $garages as $key => $gar}
+						<td style="text-align:center">
+							<div class="garage-icon">
+								<a n:href="Garage:default $gar->id" style="color:inherit;text-decoration:none;"><i class="fa-solid fa-warehouse fa-10x"></i></a>
+								<div class="garage-name" style="margin-top:-8rem;color:white;">
+									<span>{$gar->jmeno}</span>
+								</div>
+							</div>							
+							
+							
+						</td>
+					{/foreach}
+					</tr>
+				
+			</tbody>
+		</table>
+		
 {/if}
   
 </div>
