@@ -191,10 +191,15 @@ class DatabaseModel {
 		);
 	}
 
-	public function getVehicleData($manufacturerId, $modelId)
+	public function getVehicleData($manufacturerId, $modelId, $ccmId, $palivoId, $prevodovkaId, $rokVyrobyId, $kwId)
 	{
 		$vehiclesdata['vyrobce'] = $this->database->fetch('SELECT nazev FROM vyrobce WHERE id=?', $manufacturerId);		
 		$vehiclesdata['model'] = $this->database->fetch('SELECT nazev FROM model WHERE id=?', $modelId);
+		$vehiclesdata['ccm'] = $this->database->fetch('SELECT oznaceni FROM ccm WHERE id=?', $ccmId);
+		$vehiclesdata['palivo'] = $this->database->fetch('SELECT nazev FROM palivo WHERE id=?', $palivoId);
+		$vehiclesdata['prevodovka'] = $this->database->fetch('SELECT nazev FROM prevodovka WHERE id=?', $prevodovkaId);
+		$vehiclesdata['rokVyroby'] = $this->database->fetch('SELECT rok FROM rok WHERE id=?', $rokVyrobyId);
+		$vehiclesdata['kw'] = $this->database->fetch('SELECT kw FROM kw WHERE id=?', $kwId);
 		return $vehiclesdata;		
 	}
 	
