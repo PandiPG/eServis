@@ -1,0 +1,84 @@
+{block content}
+<div class="container-fluid">
+	<div class="d-flex justify-content-center" id="form" style="">
+		{*{control addVehicle}*}
+		<div class= container>
+			<div class="row justify-content-md-center">
+					<div class="col-8">
+						<form n:name=addVehicle class=form>
+							<div class="row mb-3">
+								{input name, class: "col-8 form-control" }
+							</div>
+							<div class="row mb-3">
+								{input category, class: "col-8 form-control" }
+							</div>
+							<div class="row mb-3">
+								{input manufacturer, class: "col-8 form-control" }
+							</div>							
+							<div class="row mb-3">
+								{input models, class: "col-8 form-control" }
+							</div>
+							<div class="row mb-3">
+								{input year, class: "col-8 form-control" }
+							</div>
+							<div class="row mb-3">
+								{input ccm, class: "col-8 form-control" }
+							</div>
+							<div class="row mb-3">
+								{input kw, class: "col-8 form-control" }
+							</div>
+							<div class="row mb-3">
+								{input transmission, class: "col-8 form-control" }
+							</div>
+							<div class="row mb-3">
+								{input fuel, class: "col-8 form-control" }
+							</div>
+							<div class="row mb-3">
+								{input km, class: "col-8 form-control" }
+							</div>
+							<div class="row mb-3">
+								{input vin, class: "col-8 form-control" }
+							</div>
+							<div class="row mb-3">
+								{input garage, class: "col-8 form-control" }
+							</div>
+							<div class="row mb-3">
+								{input addVehicle, class: "col-8 btn btn-success" }
+							</div>
+						</form>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('select[data-depends]').forEach((childSelect) => {
+		let parentSelect = childSelect.form[childSelect.dataset.depends];
+		let url = childSelect.dataset.url;
+		let items = JSON.parse(childSelect.dataset.items || 'null');
+
+		parentSelect.addEventListener('change', () => {
+			if (items) {
+				updateSelectbox(childSelect, items[parentSelect.value]);
+			}
+
+			if (url) {
+				fetch(url.replace(encodeURIComponent('#'), encodeURIComponent(parentSelect.value)))
+					.then((response) => response.json())
+					.then((data) => updateSelectbox(childSelect, data));
+			}
+		});
+	});
+
+function updateSelectbox(select, items)
+{
+    select.innerHTML = '';
+    for (let id in items) {
+        let el = document.createElement('option');
+        el.setAttribute('value', id);
+        el.innerText = items[id];
+        select.appendChild(el);
+    }
+}
+</script>

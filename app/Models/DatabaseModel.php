@@ -58,11 +58,15 @@ class DatabaseModel {
 	public function getGarages($id) 
 	{
 		$garages =  $this->database->fetchAll('SELECT * FROM muj_garaz WHERE user_id= ?', $id);
-		foreach ( $garages as $garage) {
-			$garageName = $garage->jmeno;
+		foreach ( $garages as $row) {
+			$garages[$row->id] = $row->jmeno;
 		}
-		return $garages;
-	
+		foreach ( $garages as $row => $data ) {
+			if ( !is_string($data) ) {
+				unset($garages[$row]);
+			}
+		}
+		return $garages;	
 	}
 
 	public function getGarage($garageId)
