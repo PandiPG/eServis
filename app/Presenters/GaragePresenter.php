@@ -6,6 +6,8 @@ namespace App\Presenters;
 
 use App\Models\DatabaseModel;
 use Nette\Application\UI\Form;
+use Nette\Forms\Control;
+use Nette\Forms\Form as FormsForm;
 
 final class GaragePresenter extends BasePresenter
 {
@@ -36,7 +38,7 @@ final class GaragePresenter extends BasePresenter
 		if ( isset($_POST['add-vehicle']) ) {
 			$this->redirect('AddVehicle:');
 		}
-
+		
 		$this->template->garage = $garage;
 		$this->template->vehicles = $vehicles;
 	}
@@ -110,5 +112,16 @@ final class GaragePresenter extends BasePresenter
 	//	$this->model->addCar($values['name'], $values['category'], $values['manufacturer'], $values['models'], $values['year'], $values['ccm'],$values['kw'], $values['transmission'], $values['fuel'], $values['vin'], $this->getParameter('garageId'), $this->user->identity->id);
 	//	return $form;
 	//}
+
+	//public function renderModal($id): void
+	//{ 	
+	//	$vehicleInfo = $this->model->getVehicleById($id);
+	//	$vehicleInfo = $this->model->getVehicleData($vehicleInfo[0]['vyrobce_id'], $vehicleInfo[0]['model_id'], $vehicleInfo[0]['ccm_id'], $vehicleInfo[0]['palivo_id'], $vehicleInfo[0]['prevodovka_id'], $vehicleInfo[0]['rok_vyroby'], $vehicleInfo[0]['kw_id']);
+	//	$this->template->render(__DIR__.'/templates/Garage/modal.latte');
+	//}
+
+
+
+
 }
 ?>

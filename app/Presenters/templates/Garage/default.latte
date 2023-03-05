@@ -1,36 +1,34 @@
 {block content}
-	<h3 style="text-align:left;">Garáž {$garage['jmeno']}</h3>
-	<table class="table table-striped table-bordered" style="width:100%;margin-top:5rem;">
-		<thead>
+<h3 style="text-align:left;">Garáž {$garage['jmeno']}</h3>
+
+<table class="table table-striped table-bordered" style="width:100%;margin-top:5rem;">
+	<thead>
+		<tr>
+			<th>Jméno</th>
+			<th>Výrobce</th>
+			<th>Model</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>	
+		{foreach $vehicles as $key => $vehicle}
 			<tr>
-				<th>Jméno</th>
-				<th>Výrobce</th>
-				<th>Model</th>
-				<th></th>
+				<td class="w-25 p-3">{$vehicle['jmeno']}</td>
+				<td class="w-25 p-3">{$vehicle['data']['vyrobce']->nazev}</td>
+				<td class="w-25 p-3">{$vehicle['data']['model']->nazev}</td>
+				<td class=" d-flex justify-content-between">
+					<button type="button" class="btn btn-info open-infoModal" data-toggle="modal" data-target="#modalInfo" id="info" value="{$vehicle->id}"><i class="fa-solid fa-info" title="Zobrazit podrobnosti"></i></button>
+					<button type="button" class="btn btn-success"><i class="fa-solid fa-wrench" title="Přidat servisní úkon" value="{$vehicle->id}"></i></button>
+					<button type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" title="Upravit" value="{$vehicle->id}"></i></button>
+					<button type="button" class="btn btn-danger deleteVehicleBtn" data-toggle="modal" data-target="#modalDelete" id="delete" value="{$vehicle->id}"><i class="fa-solid fa-trash-can" title="Zmazat vozidlo"></i></button>
+				</td>
 			</tr>
-		</thead>
-		<tbody>
-		
-			{foreach $vehicles as $vehicle}
-				<tr>
-					<td class="w-25 p-3">{$vehicle['jmeno']}</td>
-					<td class="w-25 p-3">{$vehicle['data']['vyrobce']->nazev}</td>
-					<td class="w-25 p-3">{$vehicle['data']['model']->nazev}</td>
-					<td class=" d-flex justify-content-between">
-						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalInfo" id="info"><i class="fa-solid fa-info" title="Zobrazit podrobnosti"></i></button>
-						<button type="button" class="btn btn-success"><i class="fa-solid fa-wrench" title="Přidat servisní úkon"></i></button>
-						<button type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" title="Upravit"></i></button>
-						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete" id="delete"><i class="fa-solid fa-trash-can" title="Zmazat vozidlo"></i></button>
-					</td>
-				</tr>				
-			{/foreach}
-		</tbody>
-	</table>
-{/if}
-
-<a n:href="AddVehicle:default"><button type="button" class="btn btn-primary">Přidat vozidlo</button></a>
-
-
+		{/foreach}
+	</tbody>
+</table>
+	
+<a n:href="AddVehicle:default"><button type="button" class="btn btn-primary" style="width:100%;">Přidat vozidlo</button></a>
+	
 
 <!-- Modal info-->
 <div id="modalInfo" class="modal fade" role="dialog">
@@ -43,22 +41,32 @@
         <h4 class="modal-title">Podrobnosti vozidla</h4>
       </div>
       <div class="modal-body">
-			<table id="vehicleData" class="table table-striped table-bordered">
+		<table class="table table-striped" style="width:50%;">
+			<thead>
 				<tr>
-					<th>ccm</th>
-					<th>palivo</th>
-					<th>převodovka</th>
-					<th>rok výroby</th>
-					<th> výkon (kw)</th>
+					<td>Vyrobce</td>
+					<td>Model</td>
+					<td>Objem(ccm)</td>
+					<td>Palivo</td>
+					<td>Převodovka</td>
+					<td>Rok výroby</td>
+					<td>Výkon</td>
+					<td>Najeto(km)</td>
 				</tr>
+			</thead>
+			<tbody>
 				<tr>
-					<td>{$vehicle['data']['ccm']->oznaceni}</td>
-					<td>{$vehicle['data']['palivo']->nazev}</td>
-					<td>{$vehicle['data']['prevodovka']->nazev}</td>
-					<td>{$vehicle['data']['rokVyroby']->rok}</td>
-					<td>{$vehicle['data']['kw']->kw}</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
 				</tr>
-			</table>
+			<tbody>
+		</table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -66,44 +74,49 @@
     </div>
   </div>
 </div>
+
 <!-- Modal delete-->
-<div id="modaldelete" class="modal fade" role="dialog">
+<div id="modalDelete" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header" style="flex-direction: row-reverse;">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Odtranení vozidla</h4>
-      </div>
-      <div class="modal-body">Opravdu chcete odstránit vozidlo z garáže?</div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Odtránit</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
+		<form action="" method="POST">
+			<div class="modal-header" style="flex-direction: row-reverse;">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Odstranení vozidla</h4>
+			</div>
+			<input type="text" name="vehicle_delete_id" id="deleteVehicleId" value="">
+			<div class="modal-body">Opravdu chcete odstránit vozidlo z garáže?</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-danger " data-dismiss="modal" name="delete" value="">Odstránit</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</form>
+	</div>	
   </div>
 </div>
-				
-
+{/block}
 <script>
-	document.querySelectorAll('select[data-depends]').forEach((childSelect) => {
-		let parentSelect = childSelect.form[childSelect.dataset.depends];
-		let url = childSelect.dataset.url;
-		let items = JSON.parse(childSelect.dataset.items || 'null');
 
-		parentSelect.addEventListener('change', () => {
-			if (items) {
-				updateSelectbox(childSelect, items[parentSelect.value]);
-			}
+//dinamic form
+document.querySelectorAll('select[data-depends]').forEach((childSelect) => {
+	let parentSelect = childSelect.form[childSelect.dataset.depends];
+	let url = childSelect.dataset.url;
+	let items = JSON.parse(childSelect.dataset.items || 'null');
 
-			if (url) {
-				fetch(url.replace(encodeURIComponent('#'), encodeURIComponent(parentSelect.value)))
-					.then((response) => response.json())
-					.then((data) => updateSelectbox(childSelect, data));
-			}
-		});
+	parentSelect.addEventListener('change', () => {
+		if (items) {
+			updateSelectbox(childSelect, items[parentSelect.value]);
+		}
+
+		if (url) {
+			fetch(url.replace(encodeURIComponent('#'), encodeURIComponent(parentSelect.value)))
+				.then((response) => response.json())
+				.then((data) => updateSelectbox(childSelect, data));
+		}
 	});
+});
 
 function updateSelectbox(select, items)
 {
@@ -115,18 +128,35 @@ function updateSelectbox(select, items)
         select.appendChild(el);
     }
 }
-//modalIndo
+
+//modalInfo
 $(document).ready(function(){
   $("#info").click(function(){
-    $("#modalInfo").modal();
+	$("#modalInfo").modal();
+	console.log('PUNCI');
   });
 });
-//modaldelete
+
+//modalDelete
+//$(document).ready(function(){
+//  $('.deleteVehicleBtn').click(function(e){
+//	console.log('PINA');
+//	//e.preventDefault();
+//	var deleteVehicleId = $(this).val();
+//	console.log(deleteVehicleId);
+//	$('#deleteVehicleId').val(deleteVehicleId);
+//    $('#modalDelete').modal('show');
+//  });
+//});
 $(document).ready(function(){
-  $("#delete").click(function(){
-    $("#modaldelete").modal();
-  });
-});
+	$("#delete").click(function(e){
+		e.preventDefault();
+		console.log($(this).val());
+		var deleteVehicleBtn = $($this).val();
+		console.log(deleteVehicleBtn);
+
+	})
+})
 
 </script>
 	

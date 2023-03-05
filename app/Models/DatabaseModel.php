@@ -204,7 +204,18 @@ class DatabaseModel {
 		$vehiclesdata['prevodovka'] = $this->database->fetch('SELECT nazev FROM prevodovka WHERE id=?', $prevodovkaId);
 		$vehiclesdata['rokVyroby'] = $this->database->fetch('SELECT rok FROM rok WHERE id=?', $rokVyrobyId);
 		$vehiclesdata['kw'] = $this->database->fetch('SELECT kw FROM kw WHERE id=?', $kwId);
+		
 		return $vehiclesdata;		
+	}
+
+	public function getVehicleById($id)
+	{
+		return $this->database->fetchAll('SELECT * FROM vozidlo WHERE id=?', $id);
+	}
+
+	public function deleteVehicle($id)
+	{
+		$this->database->query('DELETE FROM vozidlo WHERE id=?', $id);
 	}
 	
 }

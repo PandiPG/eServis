@@ -20,7 +20,10 @@ final class AddVehiclePresenter extends BasePresenter
 
 	public function renderDefault()
 	{
-
+		if (isset($_POST['addVehicleSubmit'])) {
+			bdump($_POST);
+			$this->flashMessage('Vozidlo byl úspešně přidán.', 'success');
+		}
 	}
 
 
@@ -82,7 +85,7 @@ final class AddVehiclePresenter extends BasePresenter
 		$garages = $form->addSelect('garage', 'Garáž:', $this->model->getGarages($this->user->identity->id))
 			->setRequired('%label je povinní pole.')
 			->setPrompt('Vyberte garáž');
-		$form->addSubmit('addVehicle', 'Přidat');
+		$form->addSubmit('addVehicleSubmit', 'Přidat');
 		$form->onSuccess[] = [$this, 'formAddVehicle'];
 		return $form;
 		
