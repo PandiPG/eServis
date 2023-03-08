@@ -20,9 +20,8 @@ final class GaragePresenter extends BasePresenter
 	}
 
 	public function renderDefault($garageId)
-	{
+	{	
 		$vehicles = $this->model->getVehicles($garageId);
-
 		if ( $vehicles === null ) {
 			$this->redirect('AddVehicle:');
 		}

@@ -21,8 +21,8 @@ final class AddVehiclePresenter extends BasePresenter
 	public function renderDefault()
 	{
 		if (isset($_POST['addVehicleSubmit'])) {
-			bdump($_POST);
 			$this->flashMessage('Vozidlo byl úspešně přidán.', 'success');
+			$this->redirect('this');
 		}
 	}
 
@@ -33,15 +33,15 @@ final class AddVehiclePresenter extends BasePresenter
 		$form = new Form;
 
 		//jmeno
-		$form->addText('name', 'Jméno:',)
+		$form->addText('name', 'Jméno')
 			->addRule($form::MIN_LENGTH, '%label musí mít alespoň %d znaku.', 2)
 			->setHtmlAttribute('placeholder', 'napiste jméno vozidla');
 		//katekorie
-		$categories = $form->addSelect('category', 'Kategorie:', $this->model->getCategories())
+		$categories = $form->addSelect('category', 'Kategorie', $this->model->getCategories())
 			->setRequired('%label je povinní pole.')
 			->setPrompt('Vyberte kategori');
 		//vyrobce zavusli na kategorie
-		$manufacturer = $form->addSelect('manufacturer', 'Výrobce:')
+		$manufacturer = $form->addSelect('manufacturer', 'Výrobce')
 			->setRequired('%label je povinní pole.')
 			->setHtmlAttribute('data-depends', $categories->getHtmlName())
 			->setHtmlAttribute('data-url', $this->link('Vehicles:manufacturers', '#'))
@@ -51,7 +51,7 @@ final class AddVehiclePresenter extends BasePresenter
 			? $this->model->getManufacturers($categories->getValue())
 			:[]);
 		//model zavusli na vyrobce
-		$models = $form->addSelect('models', 'Model:')
+		$models = $form->addSelect('models', 'Model')
 			->setRequired('%label je povinní pole.')
 			->setHtmlAttribute('data-depends', $manufacturer->getHtmlName())
 			->setHtmlAttribute('data-url', $this->link('Vehicles:models', '#'))
@@ -61,28 +61,28 @@ final class AddVehiclePresenter extends BasePresenter
 			? $this->model->getModels($manufacturer->getValue())
 			:[]);
 		//zbytek
-		$form->addSelect('year', 'Rok výrovy:', $this->model->getYear())
+		$form->addSelect('year', 'Rok výrovy', $this->model->getYear())
 			->setRequired('%label je povinní pole.')
 			->setPrompt('Vyberte rok');
-		$form->addSelect('ccm', 'Obsah motoru:', $this->model->getCcm())
+		$form->addSelect('ccm', 'Obsah motoru', $this->model->getCcm())
 			->setRequired('%label je povinní pole.')
 			->setPrompt('Vyberte ccm');
-		$form->addSelect('kw', 'Výkon motoru (KW):', $this->model->getKw())
+		$form->addSelect('kw', 'Výkon motoru (KW)', $this->model->getKw())
 			->setRequired('%label je povinní pole.')
 			->setPrompt('Vyberte výkon');
-		$form->addSelect('transmission', 'Prevodovka:', $this->model->getTransmisson())
+		$form->addSelect('transmission', 'Prevodovka', $this->model->getTransmisson())
 			->setRequired('%label je povinní pole.')
 			->setPrompt('Vyberte převodovku');
 		$form->addSelect('fuel', 'Palivo:', $this->model->getFuel())
 			->setRequired('%label je povinní pole.')
 			->setPrompt('Vyberte palivo');
-		$form->addInteger('km', 'Stav km:')
+		$form->addInteger('km', 'Stav km')
 			->addRule($form::MAX_LENGTH, '%label muže mít maximálne %d čisla', 6)
 			->setHtmlAttribute('placeholder', 'Napište stav najetých km');
 		$form->addText('vin', 'VIN:')
 			->addRule($form::MIN_LENGTH, '%label musí mít přesne %d znaku.', 17)
-			->setHtmlAttribute('placeholder', 'Napište VIN:');
-		$garages = $form->addSelect('garage', 'Garáž:', $this->model->getGarages($this->user->identity->id))
+			->setHtmlAttribute('placeholder', 'Napište VIN');
+		$garages = $form->addSelect('garage', 'Garáž', $this->model->getGarages($this->user->identity->id))
 			->setRequired('%label je povinní pole.')
 			->setPrompt('Vyberte garáž');
 		$form->addSubmit('addVehicleSubmit', 'Přidat');

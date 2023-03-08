@@ -215,7 +215,7 @@ class DatabaseModel {
 
 	public function deleteVehicle($id)
 	{
-		$this->database->query('DELETE FROM vozidlo WHERE id=?', $id);
+		return $this->database->query('DELETE FROM vozidlo WHERE id=?', $id);
 	}
 	
 }

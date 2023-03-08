@@ -15,13 +15,27 @@ final class DeleteVehiclePresenter extends BasePresenter
 		$this->model = $model;
 	}
 
-	public function actionDeleteVehicle($id)
+	public function actionDelete()
 	{
-		$res = $this->model->deleteVehicle($this->model->getVehicleById($id));
-		bdump($res);
-		//$this->flashMessage('Vozidlo bylo vymazaný.');
+		
+		//bdump($garageId);
+		bdump($_POST);
+		$ids = explode(",", $_POST['vehicle_delete_id']);
+		$vehicleId = substr($ids[0],10);
+		$garageId = substr($ids[1],9);
+		bdump($garageId);
+		bdump($vehicleId);
+		$res = $this->model->deleteVehicle( $vehicleId );
+		if ( $res->getRowCount() !== 0 ) {
+			$this->flashMessage('Vozidlo odstraněn.', 'success');
+		}
+		//$this->redirectUrl('../garage/?garageId='.$garageId);
+		$this->redirect('Garage:default', $garageId);
+		
+		
 	}
 
 }
 
-?>
+
+	
