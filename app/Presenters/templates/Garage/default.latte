@@ -18,10 +18,9 @@
 				<td class="w-25 p-3">{$vehicle['data']['vyrobce']->nazev}</td>
 				<td class="w-25 p-3">{$vehicle['data']['model']->nazev}</td>
 				<td class=" d-flex justify-content-between">
-					<button type="button" class="btn btn-info open-infoModal" data-toggle="modal" data-target="#modalInfo" id="info" value="{$vehicle->id}"><i class="fa-solid fa-info" title="Zobrazit podrobnosti"></i></button>
+					<button type="button" class="btn btn-info infoModalBtn" data-toggle="modal" data-target="#modalInfo" id="info" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-info" title="Zobrazit podrobnosti"></i></button>
 					<button type="button" class="btn btn-success"><i class="fa-solid fa-wrench" title="Přidat servisní úkon" value="{$vehicle->id}"></i></button>
 					<button type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" title="Upravit" value="{$vehicle->id}"></i></button>
-					{*<button type="button" class="btn btn-danger deleteVehicleBtn" data-toggle="modal" data-target="#modalDelete" id="delete" value="{$vehicle->id}"><i class="fa-solid fa-trash-can" title="Zmazat vozidlo"></i></button> *}
 					<button type="button" class="btn btn-danger deleteVehicleBtn" data-toggle="modal" data-target="#deleteModal" id="removeBtn" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-trash-can" title="Zmazat vozidlo"></i></button>
 				</td>
 			</tr>
@@ -33,17 +32,18 @@
 	
 
 <!-- Modal info-->
-<div id="modalInfo" class="modal fade" role="dialog">
+<div id="modalInfo" class="modal fade" role="dialog" data-backdrop="static">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header" style="flex-direction: row-reverse;">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="close" id="modalCloseBtn" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Podrobnosti vozidla</h4>
       </div>
       <div class="modal-body">
-		<table class="table table-striped" style="width:50%;">
+	  	<input type="hidden" name="vehicle_delete_id"  id="idForInfo">
+		<table class="table table-striped" style="width:100%;">
 			<thead>
 				<tr>
 					<td>Vyrobce</td>
@@ -57,21 +57,13 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+				<tr id="tr">
 				</tr>
 			<tbody>
 		</table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" id="modalCloseBtn" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -134,10 +126,44 @@ function updateSelectbox(select, items)
 
 //modalInfo
 $(document).ready(function(){
-  $("#info").click(function(){
-	$("#modalInfo").modal();
+  $(".infoModalBtn").click(function(){
+
+			
+	
+	var idForInfo = $(this).val();
+	idForInfo = idForInfo;
+	//console.log(idForInfo);
+	var idVehicleforInfo = idForInfo.split(",");
+	//console.log(idVehicleforInfo);
+	id = idVehicleforInfo[0].substr(10);
+
+	vehicles = {$vehicles}
+	//console.log(vehicles);
+
+	for (item of vehicles) {
+		if ( id == item.id) {
+			console.log("match");		
+			vyrobce = item.data.vyrobce;
+			model = item.data.model;
+			ccm = item.data.ccm;
+			palivo = item.data.palivo;
+			prevodovka = item.data.prevodovka;
+			rokVyroby = item.data.rokVyroby;
+			kw = item.data.kw;
+			vehlId = item.id;
+			$('#tr').append("<td>" + vyrobce.nazev + "</td><td>" + model.nazev + "</td><td>" + ccm.oznaceni + "</td><td>" + palivo.nazev + "</td><td>" + prevodovka.nazev + "</td><td>" + rokVyroby.rok + "</td><td>" + kw.kw + "</td><");
+		}
+	}
   });
 });
+
+
+
+  $(document).ready(function(){
+	$('#modalCloseBtn').click(function(){
+		$('#tr').empty();
+	});
+  });
 
 //modalDelete
 $(document).ready(function(){
@@ -145,17 +171,18 @@ $(document).ready(function(){
 		e.preventDefault();
 
 		var vehicleId = $(this).val();
-		vehicleId = vehicleId
-		console.log(vehicleId);
+		vehicleId = vehicleId;
+		//console.log(vehicleId);
 		$('#vehicleId').val(vehicleId);
 		$('#deleteModal').modal('show');
 	})
 })
 
+//delete modal data fill
 $(document).ready(function(){
 	$(".deleteVehicleBtn").click(function(){
 		var idToRemove = $(this).val();
-		console.log(idToRemove);
+		//console.log(idToRemove);
 		$("#removeId").val(idToRemove);
 	});
 });
