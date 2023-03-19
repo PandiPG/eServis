@@ -38,7 +38,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header" style="flex-direction: row-reverse;">
-        <button type="button" class="close" id="modalCloseBtn" data-dismiss="modal">&times;</button>
+        <button type="button" class="close" id="xBtn" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Podrobnosti vozidla</h4>
       </div>
       <div class="modal-body">
@@ -126,19 +126,12 @@ function updateSelectbox(select, items)
 
 //modalInfo
 $(document).ready(function(){
-  $(".infoModalBtn").click(function(){
-
-			
-	
+  $(".infoModalBtn").click(function(){	
 	var idForInfo = $(this).val();
 	idForInfo = idForInfo;
-	//console.log(idForInfo);
 	var idVehicleforInfo = idForInfo.split(",");
-	//console.log(idVehicleforInfo);
 	id = idVehicleforInfo[0].substr(10);
-
 	vehicles = {$vehicles}
-	//console.log(vehicles);
 
 	for (item of vehicles) {
 		if ( id == item.id) {
@@ -157,13 +150,16 @@ $(document).ready(function(){
   });
 });
 
-
-
-  $(document).ready(function(){
+//delete tr content
+$(document).ready(function(){
 	$('#modalCloseBtn').click(function(){
 		$('#tr').empty();
 	});
-  });
+	$('#xBtn').click(function(){
+		$('#tr').empty();
+	});
+});
+
 
 //modalDelete
 $(document).ready(function(){
