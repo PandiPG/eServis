@@ -1,7 +1,26 @@
 {block content}
-<div class="card"  style="width:18rem; margin-top:10rem;margin:auto;">
+<div class="card"  style="width:25%; margin-top:10rem;margin:auto;">
   <div class="card-body">
-    <h2 class="card-title" style="text-align:center;">Prihlašení</h2>    
-  	{control logIn}
+    <h2 class="card-title" style="text-align:center;">Prihlášení</h2>    
+  	{*{control logIn}*}
+    <div class= container>
+			<div class="row justify-content-md-center">
+					<div class="col-10">
+						<form n:name=logIn class=form>
+							<div class="row mb-3">
+								{label name class: "col-sm-3 col-form-label" /}
+								{input name, class: "col-13 form-control" }
+							</div>
+							<div class="row mb-3">
+								{label password class: "col-sm-3 col-form-label" /}
+								{input password, class: "col-13 form-control" }
+							</div>
+							<div class="row mb-3 justify-content-end ">
+								{input send, class: "col-5 btn btn-success", style:"margin-right:6rem"}
+							</div>
+						</form>
+					</div>
+			</div>
+		</div>
   </div>
 </div>
