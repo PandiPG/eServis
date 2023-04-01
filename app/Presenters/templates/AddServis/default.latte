@@ -1,0 +1,29 @@
+{block content}
+<h3 style="margin:auto; margin-top:-3rem;" class="mb-5">Přidat servisní úkon</h3>
+<div class="container-fluid">
+	<div class="d-flex justify-content-center" id="form" style="">
+		<div class= container>
+			<div class="row justify-content-md-center">
+					<div class="col-8">
+						<form n:name= addServis class=form>
+							<div class="row mb-3">
+								{label date class: "col-sm-3 col-form-label" /}
+								{input date, class: "col-8 form-control"}
+							</div>
+							<div class="row mb-3">
+								{label km class: "col-sm-3 col-form-label" /}
+								{input km, class: "col-8 form-control"}
+							</div>
+							<div class="row mb-3">
+								{label operation class: "col-sm-3 col-form-label" /}
+								{input operation, class: "col-8 form-control", rows:"5"}
+							</div>
+							<div class="row mb-3 justify-content-end ">
+								{input send, class: "col-8 btn btn-success", style:"margin-right:4rem" }
+							</div>
+						</form>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>

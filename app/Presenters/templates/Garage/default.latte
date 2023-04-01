@@ -19,7 +19,7 @@
 				<td class="w-25 p-3">{$vehicle['data']['model']->nazev}</td>
 				<td class=" d-flex justify-content-between">
 					<button type="button" class="btn btn-info infoModalBtn" data-toggle="modal" data-target="#modalInfo" id="info" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-info" title="Zobrazit podrobnosti"></i></button>
-					<button type="button" class="btn btn-success"><i class="fa-solid fa-wrench" title="Přidat servisní úkon" value="{$vehicle->id}"></i></button>
+					<a n:href="AddServis:default" class="btn btn-success" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-wrench" title="Přidat servisní úkon"></i></a>
 					<button type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" title="Upravit" value="{$vehicle->id}"></i></button>
 					<button type="button" class="btn btn-danger deleteVehicleBtn" data-toggle="modal" data-target="#deleteModal" id="removeBtn" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-trash-can" title="Zmazat vozidlo"></i></button>
 				</td>

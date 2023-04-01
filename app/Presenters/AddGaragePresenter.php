@@ -8,7 +8,7 @@ use Nette;
 use App\Models\DatabaseModel;
 use Nette\Application\UI\Form;
 
-final class HomepagePresenter extends BasePresenter
+final class AddGaragePresenter extends BasePresenter
 {
 
 	private DatabaseModel $model;
@@ -17,21 +17,6 @@ final class HomepagePresenter extends BasePresenter
 	{
 		$this->model = $model;
 	}
-
-	public function renderDefault() {
-		$garages = $this->model->getGarages($this->user->identity->id);	
-	
-		$this->template->garages = $garages;
-	}
-
-		//			ODHLASENI
-	public function actionOut()
-	{
-		$this->user->logout(true);
-		$this->flashMessage('Odlášení bylo úspěnšé.');
-		$this->redirect('Login:');
-	}
-
 
 	public function createComponentCreateGarage(): Form
 	{
@@ -51,4 +36,6 @@ final class HomepagePresenter extends BasePresenter
 		$this->redirect('this');
 
 	}
+
+
 }
