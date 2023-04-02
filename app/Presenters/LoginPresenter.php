@@ -96,7 +96,6 @@ final class LoginPresenter extends BasePresenter
 			$this->flashMessage('Prihlaseni bylo uspěšné', 'success');
 			$this->redirect('Homepage:');
 		} catch (\Nette\Security\AuthenticationException $e) {
-			bdump($e);
 			$this->flashMessage($e->getMessage(), 'danger');
 		}		
 	}

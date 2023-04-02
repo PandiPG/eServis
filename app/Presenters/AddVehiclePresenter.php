@@ -94,7 +94,6 @@ final class AddVehiclePresenter extends BasePresenter
 	public function formAddVehicle($form, $values)
 	{
 		$values = $form->getValues();
-		bdump($values);
 		$this->model->addCar($values['name'], $values['category'], $values['manufacturer'], $values['models'], $values['year'], $values['ccm'],$values['kw'], $values['transmission'], $values['fuel'], $values['stav_km'], $values['vin'], $values['garage'], $this->user->identity->id);
 		return $form;
 	}

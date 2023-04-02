@@ -73,7 +73,6 @@ final class AddServisPresenter extends BasePresenter
 		$values = $form->getValues();
 		$user = $this->user->identity;
 		$res = $this->model->addServisOperation($values->vehicleId, $values->date, $values->type, $values->km, $values->operation, $values->price, $values->vin);
-		bdump($res->getRowCount());
 		if ( $res->getRowCount() !== 0 ) {
 			$this->flashMessage('Servisní úkon byl přidán', 'success');
 		} /*else {
