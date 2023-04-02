@@ -19,12 +19,9 @@ final class DeleteVehiclePresenter extends BasePresenter
 	{
 		
 		//bdump($garageId);
-		bdump($_POST);
 		$ids = explode(",", $_POST['vehicle_delete_id']);
 		$vehicleId = substr($ids[0],10);
 		$garageId = substr($ids[1],9);
-		bdump($garageId);
-		bdump($vehicleId);
 		$res = $this->model->deleteVehicle( $vehicleId );
 		if ( $res->getRowCount() !== 0 ) {
 			$this->flashMessage('Vozidlo odstraněn.', 'success');

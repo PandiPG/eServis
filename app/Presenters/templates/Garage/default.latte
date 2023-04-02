@@ -19,7 +19,7 @@
 				<td class="w-25 p-3">{$vehicle['data']['model']->nazev}</td>
 				<td class=" d-flex justify-content-between">
 					<button type="button" class="btn btn-info infoModalBtn" data-toggle="modal" data-target="#modalInfo" id="info" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-info" title="Zobrazit podrobnosti"></i></button>
-					<a n:href="AddServis:default" class="btn btn-success" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-wrench" title="Přidat servisní úkon"></i></a>
+					<a n:href="AddServis:default $vehicle->id" class="btn btn-success" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-wrench" title="Přidat servisní úkon"></i></a>
 					<button type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" title="Upravit" value="{$vehicle->id}"></i></button>
 					<button type="button" class="btn btn-danger deleteVehicleBtn" data-toggle="modal" data-target="#deleteModal" id="removeBtn" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-trash-can" title="Zmazat vozidlo"></i></button>
 				</td>
@@ -135,16 +135,18 @@ $(document).ready(function(){
 
 	for (item of vehicles) {
 		if ( id == item.id) {
-			console.log("match");		
-			vyrobce = item.data.vyrobce;
+			console.log("match");
+			console.log(item.data);		
+			manufacturer = item.data.vyrobce;
 			model = item.data.model;
 			ccm = item.data.ccm;
-			palivo = item.data.palivo;
-			prevodovka = item.data.prevodovka;
-			rokVyroby = item.data.rokVyroby;
+			fuel = item.data.palivo;
+			transmission = item.data.prevodovka;
+			yearOfManufac = item.data.rokVyroby;
 			kw = item.data.kw;
+			statusKm = item.data.stavKm;
 			vehlId = item.id;
-			$('#tr').append("<td>" + vyrobce.nazev + "</td><td>" + model.nazev + "</td><td>" + ccm.oznaceni + "</td><td>" + palivo.nazev + "</td><td>" + prevodovka.nazev + "</td><td>" + rokVyroby.rok + "</td><td>" + kw.kw + "</td><");
+			$('#tr').append("<td>" + manufacturer.nazev + "</td><td>" + model.nazev + "</td><td>" + ccm.oznaceni + "</td><td>" + fuel.nazev + "</td><td>" + transmission.nazev + "</td><td>" + yearOfManufac.rok + "</td><td>" + kw.kw + "</td><td>" + statusKm.stav_km + "</td>");
 		}
 	}
   });

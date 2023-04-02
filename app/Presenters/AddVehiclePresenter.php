@@ -50,7 +50,7 @@ final class AddVehiclePresenter extends BasePresenter
 			$manufacturer->setItems($categories->getValue()
 			? $this->model->getManufacturers($categories->getValue())
 			:[]);
-		//model zavusli na vyrobce
+		//model zavisli na vyrobce
 		$models = $form->addSelect('models', 'Model')
 			->setRequired('%label je povinní pole.')
 			->setHtmlAttribute('data-depends', $manufacturer->getHtmlName())
@@ -95,7 +95,7 @@ final class AddVehiclePresenter extends BasePresenter
 	{
 		$values = $form->getValues();
 		bdump($values);
-		$this->model->addCar($values['name'], $values['category'], $values['manufacturer'], $values['models'], $values['year'], $values['ccm'],$values['kw'], $values['transmission'], $values['fuel'], $values['vin'], $values['garage'], $this->user->identity->id);
+		$this->model->addCar($values['name'], $values['category'], $values['manufacturer'], $values['models'], $values['year'], $values['ccm'],$values['kw'], $values['transmission'], $values['fuel'], $values['stav_km'], $values['vin'], $values['garage'], $this->user->identity->id);
 		return $form;
 	}
 }

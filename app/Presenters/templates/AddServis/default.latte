@@ -1,5 +1,24 @@
 {block content}
-<h3 style="margin:auto; margin-top:-3rem;" class="mb-5">Přidat servisní úkon</h3>
+<h3 style="margin:auto; margin-top:-3rem;" class="mb-5">Přidat servisní úkon </h3>
+<div class="vahicleData">
+	<h4>Údaje vozidla:</h4>
+	<ul style="list-style-type: none;">
+		{foreach $vehicleData as $key => $data}
+			<li style="font-weight:bold;font-decoration:none;">{$key}: <span style="font-weight: normal;">{if isset($data->nazev)}
+					{$data->nazev}
+				{elseif isset($data->rok)} 
+					{$data->rok}
+				{elseif isset($data->stav_km)}
+					{$data->stav_km}
+				{else}
+					{$data}</span></li>
+				{/if}
+				
+			
+		{/foreach}
+	</ul>
+</div>
+
 <div class="container-fluid">
 	<div class="d-flex justify-content-center" id="form" style="">
 		<div class= container>
@@ -11,12 +30,24 @@
 								{input date, class: "col-8 form-control"}
 							</div>
 							<div class="row mb-3">
+								{label vin class: "col-sm-3 col-form-label" /}
+								{input vin, class: "col-8 form-control"}
+							</div>
+							<div class="row mb-3">
+								{label type class: "col-sm-3 col-form-label" /}
+								{input type, class: "col-8 form-control"}
+							</div>
+							<div class="row mb-3">
 								{label km class: "col-sm-3 col-form-label" /}
 								{input km, class: "col-8 form-control"}
 							</div>
 							<div class="row mb-3">
 								{label operation class: "col-sm-3 col-form-label" /}
 								{input operation, class: "col-8 form-control", rows:"5"}
+							</div>
+							<div class="row mb-3">
+								{label price class: "col-sm-3 col-form-label" /}
+								{input price, class: "col-8 form-control"}
 							</div>
 							<div class="row mb-3 justify-content-end ">
 								{input send, class: "col-8 btn btn-success", style:"margin-right:4rem" }

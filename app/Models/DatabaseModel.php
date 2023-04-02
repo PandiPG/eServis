@@ -176,7 +176,7 @@ class DatabaseModel {
 		return $kws;
 	}
 
-	public function addCar($name, $category, $manufacturer, $model, $year, $ccm, $kw, $transmission, $fuel, $vin, $garageId, $userId)
+	public function addCar($name, $category, $manufacturer, $model, $year, $ccm, $kw, $transmission, $fuel, $stavKm, $vin, $garageId, $userId)
 	{
 		return $this->database->query('INSERT INTO vozidlo', [
 			'vin' => $vin,
@@ -191,11 +191,12 @@ class DatabaseModel {
 			'jmeno' => $name,
 			'rok_vyroby' => $year,
 			'kw_id' => $kw,
+			'stav_km' => $stavKm
 			]
 		);
 	}
 
-	public function getVehicleData($manufacturerId, $modelId, $ccmId, $palivoId, $prevodovkaId, $rokVyrobyId, $kwId)
+	public function getVehicleData($manufacturerId, $modelId, $ccmId, $palivoId, $prevodovkaId, $rokVyrobyId, $kwId, $vehicleId)
 	{
 		$vehiclesdata['vyrobce'] = $this->database->fetch('SELECT nazev FROM vyrobce WHERE id=?', $manufacturerId);		
 		$vehiclesdata['model'] = $this->database->fetch('SELECT nazev FROM model WHERE id=?', $modelId);
@@ -204,7 +205,7 @@ class DatabaseModel {
 		$vehiclesdata['prevodovka'] = $this->database->fetch('SELECT nazev FROM prevodovka WHERE id=?', $prevodovkaId);
 		$vehiclesdata['rokVyroby'] = $this->database->fetch('SELECT rok FROM rok WHERE id=?', $rokVyrobyId);
 		$vehiclesdata['kw'] = $this->database->fetch('SELECT kw FROM kw WHERE id=?', $kwId);
-		
+		$vehiclesdata['stavKm'] = $this->database->fetch('SELECT stav_km FROM vozidlo WHERE id=?', $vehicleId);
 		return $vehiclesdata;		
 	}
 
@@ -216,6 +217,40 @@ class DatabaseModel {
 	public function deleteVehicle($id)
 	{
 		return $this->database->query('DELETE FROM vozidlo WHERE id=?', $id);
+	}
+
+	public function getServisTypes()
+	{
+		$types = [];
+		foreach ( $this->database->table('servisni_ukon_typ')->fetchAll() as $row)  {
+			$types[$row->id] = $row->nazev;
+		}
+		return $types;
+	}
+
+	public function addServisOperation($vehicleId, $date, $type, $km, $operation, $price, $vin)
+	{
+		return $this->database->query('INSERT INTO servisni_ukon', [
+			
+				'aktualne_najeto' => $km,
+				'datum' => $date,
+				'zaznam' => $operation,
+				'cena' => $price,
+				'vozidlo_vin' => $vin,
+				'typ' => $type,
+				'vozidlo_id' => $vehicleId
+			]
+		);
+	}
+
+	public function getVinById($id)
+	{
+		return $this->database->fetch('SELECT vin FROM vozidlo WHERE id=?', $id);
+	}
+
+	public function getServisOperation()
+	{
+		return $this->database->fetch('SELECT id FROM servisni_ukon ORDER BY id DESC');
 	}
 	
 }

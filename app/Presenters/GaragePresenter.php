@@ -29,7 +29,8 @@ final class GaragePresenter extends BasePresenter
 		foreach ($vehicles as $vehicle) {
 			//$vehicle['vyrobce'] = $this->model->getManufcturer($vehicles['vyrobce_id']);
 			//$vehicle['model'] = $this->model->getModel($vehicles['model_id']);
-			$vehicle['data'] = $this->model->getVehicleData($vehicle['vyrobce_id'], $vehicle['model_id'], $vehicle['ccm_id'], $vehicle['palivo_id'], $vehicle['prevodovka_id'], $vehicle['rok_vyroby'], $vehicle['kw_id']);
+			bdump($vehicle);
+			$vehicle['data'] = $this->model->getVehicleData($vehicle['vyrobce_id'], $vehicle['model_id'], $vehicle['ccm_id'], $vehicle['palivo_id'], $vehicle['prevodovka_id'], $vehicle['rok_vyroby'], $vehicle['kw_id'], $vehicle['id']);
 		}
 
 		$garage = $this->model->getGarage($this->getParameter('garageId'));
