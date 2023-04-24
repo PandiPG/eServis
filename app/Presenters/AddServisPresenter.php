@@ -48,21 +48,36 @@ final class AddServisPresenter extends BasePresenter
 		$vin = $this->model->getVinById($this->getParameter('id'));
 		$vin = $vin->vin;
 		$stavKm = $this->model->getVehicleById($this->getParameter('id'))[0]['stav_km'];
-
+		$dateNext = date('Y-m-d', strtotime('+1 years'));
+		bdump($dateNext);
 		$form = new Form;
 		$form->addHidden('vehicleId', $this->getParameter('id'));
 		$form->addHidden('vin', $vin);
-		$form->addText('date', 'Datum')
+		
+		$form->addText('date', 'Datum serviseu')
 			->setRequired('Zadajte datum!')
 			->setHtmlType('date')
 			->setDefaultValue((new \DateTime)->format('Y-m-d'));
+		$form->addText('dateNext', 'Datum přístí servisu')
+			->setRequired('Zadajte datum!')
+			->setHtmlType('date')
+			->setDefaultValue($dateNext);
 		$form->addSelect('type', 'Typ servisu', $this->model->getServisTypes());
+		
 		$form->addInteger('km', 'Stav km')
 			->setRequired('Zadajte stav aktualných km!')
-			->addRule($form::MIN, '%label nemuže být menší jako '. $stavKm )
+			->addRule($form::MIN, '%label nemuže být menší jako '. $stavKm, $stavKm )
 			->addRule($form::MAX_LENGTH, '%label muže mít maximálne %d čisla', 6)
 			->setHtmlAttribute('placeholder', 'Napište stav najetých km ');
-		$form->addTextArea('operation', 'Servisí záznam')
+		
+		$form->addInteger('kmNext', 'km příští servisu')
+			->setRequired('Zadajte stav km příštího servisu!')
+			->setHtmlAttribute('placeholder', 'Napište stav najetých km ')
+			->addConditionOn($form['kmNext'], $form::MIN,  )
+				->addRule($form::MIN, '%label nemuže být menší jako ' )
+			->addRule($form::MAX_LENGTH, '%label muže mít maximálne %d čisla', 6);
+		
+			$form->addTextArea('operation', 'Servisí záznam')
 			->setRequired('Napište servisný práce!');
 		$form->addInteger('price', 'Cena')
 			->setRequired('Zadajte cenu!')

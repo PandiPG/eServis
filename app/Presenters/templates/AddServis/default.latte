@@ -28,6 +28,10 @@
 								{input date, class: "col-8 form-control"}
 							</div>
 							<div class="row mb-3">
+								{label dateNext class: "col-sm-3 col-form-label" /}
+								{input dateNext, class: "col-8 form-control"}
+							</div>
+							<div class="row mb-3">
 								{label vin class: "col-sm-3 col-form-label" /}
 								{input vin, class: "col-8 form-control"}
 							</div>
@@ -37,7 +41,11 @@
 							</div>
 							<div class="row mb-3">
 								{label km class: "col-sm-3 col-form-label" /}
-								{input km, class: "col-8 form-control"}
+								{input km, class: "col-8 form-control", id: "kmAtServis"}
+							</div>
+							<div class="row mb-3">
+								{label kmNext class: "col-sm-3 col-form-label" /}
+								{input kmNext, class: "col-8 form-control", id: "kmNext"}
 							</div>
 							<div class="row mb-3">
 								{label operation class: "col-sm-3 col-form-label" /}
@@ -56,3 +64,14 @@
 		</div>
 	</div>
 </div>
+
+<script>
+$(document).on('change', '#kmNext', function(){
+	let kmAtServis = $('#kmAtServis').val();
+	let kmNext = $(this).val();
+	if ( kmNext < kmAtServis ) {
+		alert('Stav km přiští servisu nemůže být menší jako stav aktualního servisu!');
+	}
+  });
+
+</script>
