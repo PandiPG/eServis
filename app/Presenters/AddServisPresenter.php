@@ -49,7 +49,7 @@ final class AddServisPresenter extends BasePresenter
 		$vin = $vin->vin;
 		$stavKm = $this->model->getVehicleById($this->getParameter('id'))[0]['stav_km'];
 		$dateNext = date('Y-m-d', strtotime('+1 years'));
-		bdump($dateNext);
+
 		$form = new Form;
 		$form->addHidden('vehicleId', $this->getParameter('id'));
 		$form->addHidden('vin', $vin);
@@ -58,10 +58,12 @@ final class AddServisPresenter extends BasePresenter
 			->setRequired('Zadajte datum!')
 			->setHtmlType('date')
 			->setDefaultValue((new \DateTime)->format('Y-m-d'));
+
 		$form->addText('dateNext', 'Datum přístí servisu')
 			->setRequired('Zadajte datum!')
 			->setHtmlType('date')
 			->setDefaultValue($dateNext);
+			
 		$form->addSelect('type', 'Typ servisu', $this->model->getServisTypes());
 		
 		$form->addInteger('km', 'Stav km')
@@ -82,6 +84,7 @@ final class AddServisPresenter extends BasePresenter
 		$form->addInteger('price', 'Cena')
 			->setRequired('Zadajte cenu!')
 			->setHtmlAttribute('float');
+
 		$form->addSubmit('send', 'Vytvořit');
 		$form->onSuccess[] = [$this, 'formAddServis'];
 		return $form;
@@ -93,6 +96,7 @@ final class AddServisPresenter extends BasePresenter
 		$user = $this->user->identity;
 		$res = $this->model->addServisOperation($values->vehicleId, $values->date, $values->type, $values->km, $values->operation, $values->price, $values->vin);
 		if ( $res->getRowCount() !== 0 ) {
+			//TODO kmNext na stav km vozidla!!!
 			$this->flashMessage('Servisní úkon byl přidán', 'success');
 		} else {
 			$this->flashMessage('Servisní úkon se nepodařilo přidat', 'danger');
