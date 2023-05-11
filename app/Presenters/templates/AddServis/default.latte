@@ -66,12 +66,23 @@
 </div>
 
 <script>
+//nastaveni km pristi servisu
+$(document).on('change', '#kmAtServis', function(){
+	let stavKm = $('#kmAtServis').val();
+	let kmNextServis = Number(stavKm) + 15000;
+	console.log(kmNextServis);
+	$('#kmNext').val(kmNextServis);
+})
+
+//kontrola stavu pristi servisu
 $(document).on('change', '#kmNext', function(){
 	let kmAtServis = $('#kmAtServis').val();
-	let kmNext = $(this).val();
-	if ( kmNext < kmAtServis ) {
+	 kmNext = $(this).val();
+	if ( Number(kmNext) < Number(kmAtServis) ) {
 		alert('Stav km přiští servisu nemůže být menší jako stav aktualního servisu!');
 	}
   });
+
+
 
 </script>

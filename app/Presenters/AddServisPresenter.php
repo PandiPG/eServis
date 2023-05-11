@@ -70,13 +70,12 @@ final class AddServisPresenter extends BasePresenter
 			->setRequired('Zadajte stav aktualných km!')
 			->addRule($form::MIN, '%label nemuže být menší jako '. $stavKm, $stavKm )
 			->addRule($form::MAX_LENGTH, '%label muže mít maximálne %d čisla', 6)
-			->setHtmlAttribute('placeholder', 'Napište stav najetých km ');
+			->setHtmlAttribute('placeholder', 'Napište stav najetých km ')
+			->setDefaultValue($stavKm);
 		
 		$form->addInteger('kmNext', 'km příští servisu')
 			->setRequired('Zadajte stav km příštího servisu!')
 			->setHtmlAttribute('placeholder', 'Napište stav najetých km ')
-			->addConditionOn($form['kmNext'], $form::MIN,  )
-				->addRule($form::MIN, '%label nemuže být menší jako ' )
 			->addRule($form::MAX_LENGTH, '%label muže mít maximálne %d čisla', 6);
 		
 			$form->addTextArea('operation', 'Servisí záznam')
@@ -97,7 +96,6 @@ final class AddServisPresenter extends BasePresenter
 		$res = $this->model->addServisOperation($values->vehicleId, $values->date, $values->type, $values->km, $values->operation, $values->price, $values->vin);
 		$res = $this->model->reWriteWehicleKm($values->vehicleId, $values->km);
 		if ( $res->getRowCount() !== 0 ) {
-			//TODO kmNext na stav km vozidla!!!
 			$this->flashMessage('Servisní úkon byl přidán', 'success');
 		} else {
 			$this->flashMessage('Servisní úkon se nepodařilo přidat', 'danger');
