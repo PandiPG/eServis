@@ -252,7 +252,11 @@ class DatabaseModel {
 	{
 		return $this->database->fetch('SELECT id FROM servisni_ukon ORDER BY id DESC');
 	}
-	
+
+	public function reWriteWehicleKm($vehicleId, $km)
+	{
+		return $this->database->query('UPDATE vozidlo SET', ['stav_km' => $km], 'WHERE id=?', $vehicleId);
+	}
 }
 
 ?>

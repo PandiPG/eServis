@@ -95,6 +95,7 @@ final class AddServisPresenter extends BasePresenter
 		$values = $form->getValues();
 		$user = $this->user->identity;
 		$res = $this->model->addServisOperation($values->vehicleId, $values->date, $values->type, $values->km, $values->operation, $values->price, $values->vin);
+		$res = $this->model->reWriteWehicleKm($values->vehicleId, $values->km);
 		if ( $res->getRowCount() !== 0 ) {
 			//TODO kmNext na stav km vozidla!!!
 			$this->flashMessage('Servisní úkon byl přidán', 'success');
