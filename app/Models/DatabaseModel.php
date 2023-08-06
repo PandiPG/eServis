@@ -229,10 +229,10 @@ class DatabaseModel {
 		return $types;
 	}
 
-	public function addServisOperation($vehicleId, $date, $servisTypeId, $km, $operation, $price, $vin, $dateNext, $kmNext)
+	public function addServisOperation($vehicleId, $servisName, $date, $servisTypeId, $km, $operation, $price, $vin, $dateNext, $kmNext)
 	{
 		return $this->database->query('INSERT INTO servisni_ukon', [
-			
+				'nazev_servisu' => $servisName,
 				'aktualne_najeto' => $km,
 				'datum' => $date,
 				'zaznam' => $operation,
