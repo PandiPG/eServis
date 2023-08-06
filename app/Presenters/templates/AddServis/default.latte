@@ -77,6 +77,7 @@ $(document).on('change', '#kmAtServis', function(){
 //kontrola stavu pristi servisu
 $(document).on('change', '#kmNext', function(){
 	let kmAtServis = $('#kmAtServis').val();
+	console.log(kmAtServis);
 	 kmNext = $(this).val();
 	if ( Number(kmNext) < Number(kmAtServis) ) {
 		alert('Stav km přiští servisu nemůže být menší jako stav aktualního servisu!');

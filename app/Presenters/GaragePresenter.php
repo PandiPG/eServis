@@ -33,11 +33,13 @@ final class GaragePresenter extends BasePresenter
 		}
 
 		$garage = $this->model->getGarage($this->getParameter('garageId'));
-		
+		$servisniUkony = $this->model->getServisOperation();
+		bdump($servisniUkony);
 		if ( isset($_POST['add-vehicle']) ) {
 			$this->redirect('AddVehicle:');
 		}
-		
+
+		$this->template->servisniUkony = $servisniUkony;
 		$this->template->garage = $garage;
 		$this->template->vehicles = $vehicles;
 	}

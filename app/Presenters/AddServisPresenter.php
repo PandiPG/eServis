@@ -65,10 +65,10 @@ final class AddServisPresenter extends BasePresenter
 			->setDefaultValue($dateNext);
 			
 		$form->addSelect('type', 'Typ servisu', $this->model->getServisTypes());
-		
+		bdump($stavKm);
 		$form->addInteger('km', 'Stav km')
 			->setRequired('Zadajte stav aktualných km!')
-			->addRule($form::MIN, '%label nemuže být menší jako '. $stavKm, $stavKm )
+			//->addRule($form::MIN, '%label nemuže být menší jako '. $stavKm, $stavKm )
 			->addRule($form::MAX_LENGTH, '%label muže mít maximálne %d čisla', 6)
 			->setHtmlAttribute('placeholder', 'Napište stav najetých km ')
 			->setDefaultValue($stavKm);
@@ -93,7 +93,7 @@ final class AddServisPresenter extends BasePresenter
 	{		
 		$values = $form->getValues();
 		$user = $this->user->identity;
-		$res = $this->model->addServisOperation($values->vehicleId, $values->date, $values->type, $values->km, $values->operation, $values->price, $values->vin);
+		$res = $this->model->addServisOperation($values->vehicleId, $values->date, $values->type, $values->km, $values->operation, $values->price, $values->vin, $values->dateNext, $values->kmNext);
 		$res = $this->model->reWriteWehicleKm($values->vehicleId, $values->km);
 		if ( $res->getRowCount() !== 0 ) {
 			$this->flashMessage('Servisní úkon byl přidán', 'success');
@@ -101,6 +101,7 @@ final class AddServisPresenter extends BasePresenter
 			$this->flashMessage('Servisní úkon se nepodařilo přidat', 'danger');
 		}
 		//$this->redirect('this');
+		//TODO do sabloni priidavani servisniho ukonu pridat info o pristem servisu km/rok
 	}
 
 

@@ -219,6 +219,7 @@ class DatabaseModel {
 		return $this->database->query('DELETE FROM vozidlo WHERE id=?', $id);
 	}
 
+	//////servis 
 	public function getServisTypes()
 	{
 		$types = [];
@@ -228,7 +229,7 @@ class DatabaseModel {
 		return $types;
 	}
 
-	public function addServisOperation($vehicleId, $date, $servisTypeId, $km, $operation, $price, $vin)
+	public function addServisOperation($vehicleId, $date, $servisTypeId, $km, $operation, $price, $vin, $dateNext, $kmNext)
 	{
 		return $this->database->query('INSERT INTO servisni_ukon', [
 			
@@ -238,7 +239,9 @@ class DatabaseModel {
 				'cena' => $price,
 				'vozidlo_vin' => $vin,
 				'typ' => $servisTypeId,
-				'vozidlo_id' => $vehicleId
+				'vozidlo_id' => $vehicleId,
+				'pristi_datum' => $dateNext,
+				'km_next' => $kmNext
 			]
 		);
 	}
@@ -250,7 +253,7 @@ class DatabaseModel {
 
 	public function getServisOperation()
 	{
-		return $this->database->fetch('SELECT id FROM servisni_ukon ORDER BY id DESC');
+		return $this->database->fetchAll('SELECT id,vozidlo_id,pristi_datum,km_next FROM servisni_ukon ORDER BY id DESC');
 	}
 
 	public function reWriteWehicleKm($vehicleId, $km)
