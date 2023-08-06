@@ -260,6 +260,12 @@ class DatabaseModel {
 	{
 		return $this->database->query('UPDATE vozidlo SET', ['stav_km' => $km], 'WHERE id=?', $vehicleId);
 	}
+
+	//servisni historie
+	public function getServisOperationByVehicleId($vozidloId)
+	{
+		return $this->database->fetchAll('SELECT * FROM servisni_ukon WHERE vozidlo_id=?', $vozidloId);
+	}
 }
 
 ?>

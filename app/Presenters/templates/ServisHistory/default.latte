@@ -1,0 +1,54 @@
+{block content}
+<h3>Servisní historie vozidla</h3>
+{dump $history}
+{dump $vehicleData}
+{dump $mena}
+<div class="d-flex justify-content-between" id="servisHistoryList" style="margin-top:5em;">
+		<div class="vahicleData" >
+			<h4>Údaje vozidla:</h4>
+			<ul style="list-style-type:none;margin-left:-2rem;">
+				{foreach $vehicleData as $key => $data}				
+					<li style="font-weight:bold;font-decoration:none;">{$key}: <span style="font-weight: normal;">
+						{if isset($data->nazev)}
+							{$data->nazev}
+						{elseif isset($data->rok)} 
+							{$data->rok}
+						{elseif isset($data->stav_km)}
+							{$data->stav_km}
+						{elseif $key === 'vin'}
+							{$data}</span></li>
+						{/if}
+				{/foreach}
+			</ul>
+		</div>
+		<div class="table" style="width:70%;margin-right:10em;">
+			<table name="servisHistoryTable" id="servisTable">
+				<thead>
+					<th>Datum</th>
+					<th>Název servisu</th>
+					<th>Typ</th>
+					<th>Stav km</th>
+					<th>Cena v {$mena}</th>
+				</thead>
+				<tbody>
+				{foreach $history as $key => $data}
+					<tr>	
+						<td>{date('d.m.Y', strtotime($data->datum))}</td>
+						<td>název</td>
+						<td>{if $data->typ === 1 }bežný{else}nečakaný{/if}</td>
+						<td>{$data->aktualne_najeto|number:0, ',', ' '}</td>
+						<td>{$data->cena|number:0, ',', ' '}</td>
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
+		</div>
+</div>
+<script>
+ 
+let table = new DataTable('#servisTable', {
+    // config options...
+});
+
+</script>
+{/block}

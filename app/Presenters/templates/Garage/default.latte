@@ -20,7 +20,7 @@
 				<td class=" d-flex justify-content-between">
 					<button type="button" class="btn btn-info infoModalBtn" data-toggle="modal" data-target="#modalInfo" id="info" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-info" title="Zobrazit podrobnosti"></i></button>
 					<a n:href="AddServis:default $vehicle->id" class="btn btn-success" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-wrench" title="Přidat servisní úkon"></i></a>
-					<button type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" title="Upravit" value="{$vehicle->id}"></i></button>
+					<a n:href="ServisHistory:default $vehicle->id" class="btn btn-warning" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-rectangle-list" title="Zobrazit historii"></i></a>
 					<button type="button" class="btn btn-danger deleteVehicleBtn" data-toggle="modal" data-target="#deleteModal" id="removeBtn" value="vehicleId:{$vehicle->id},garageId:{$_GET['garageId']}"><i class="fa-solid fa-trash-can" title="Zmazat vozidlo"></i></button>
 				</td>
 			</tr>
@@ -57,7 +57,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr id="tr">
+				<tr id="tr1">
+				<tr id="tr2">
 				</tr>
 			<tbody>
 		</table>
@@ -131,12 +132,12 @@ $(document).ready(function(){
 	idForInfo = idForInfo;
 	var idVehicleforInfo = idForInfo.split(",");
 	id = idVehicleforInfo[0].substr(10);
-	vehicles = {$vehicles}
+	vehicles = {$vehicles};
 
 	for (item of vehicles) {
 		if ( id == item.id) {
-			console.log("match");
-			console.log(item.data);		
+			//console.log("match");
+			//console.log(item.data);		
 			manufacturer = item.data.vyrobce;
 			model = item.data.model;
 			ccm = item.data.ccm;
@@ -146,19 +147,42 @@ $(document).ready(function(){
 			kw = item.data.kw;
 			statusKm = item.data.stavKm;
 			vehlId = item.id;
-			$('#tr').append("<td>" + manufacturer.nazev + "</td><td>" + model.nazev + "</td><td>" + ccm.oznaceni + "</td><td>" + fuel.nazev + "</td><td>" + transmission.nazev + "</td><td>" + yearOfManufac.rok + "</td><td>" + kw.kw + "</td><td>" + statusKm.stav_km + "</td>");
+			$('#tr1').append("<td>" + manufacturer.nazev + "</td><td>" + model.nazev + "</td><td>" + ccm.oznaceni + "</td><td>" + fuel.nazev + "</td><td>" + transmission.nazev + "</td><td>" + yearOfManufac.rok + "</td><td>" + kw.kw + "</td><td>" + statusKm.stav_km + "</td>");
+			//$('#tr2').append("Příští servis nejpozdejo do " + datum + " anebo do " + km );
 		}
 	}
+
+	servisniUkony = {$servisniUkony};
+	for (item of servisniUkony) {
+		console.log(item);
+		console.log(vehlId);
+		if ( vehlId === item.vozidlo_id ){
+			var datum = new Date(item.pristi_datum);
+			var day = datum.getDate();
+			var month = datum.getMonth();
+			var year = datum.getFullYear();
+			var datumFormatted = day + '.' + month + '.' + year;
+			km = item.km_next;
+			$('#tr2').append("<p style='font-weight:bold;margin-top:2em;'>Příští servis nejpozději do " + datumFormatted + " anebo do " + km + " km.</p>" );
+			break;
+		}
+	}
+
   });
+
 });
 
 //delete tr content
 $(document).ready(function(){
 	$('#modalCloseBtn').click(function(){
-		$('#tr').empty();
+		$('#tr1').empty();
+		$('#tr2').empty();
+
 	});
 	$('#xBtn').click(function(){
-		$('#tr').empty();
+		$('#tr1').empty();
+		$('#tr2').empty();
+
 	});
 });
 
