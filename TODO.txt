@@ -1,0 +1,9 @@
+OK - do info modalu pridat data o pristi servi a km 
+- pridat sablonu na uplny prehled servisni historii
+v2
+- moznost pridani STK
+v3
+- cron na kontrolu datumu pristiho servisu kontrola denne
+- mail pred mesicem datumu pristiho servisu
+
+<i class="fa-regular fa-rectangle-list"></i>
