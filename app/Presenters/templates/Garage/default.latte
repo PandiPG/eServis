@@ -1,6 +1,12 @@
 {block content}
-<h3 style="text-align:left;">Garáž {$garage['jmeno']}</h3>
-
+<div class="navTitle d-flex flex-direction: column">
+	<div class="back">
+		<div class="backArrow" title="zpět">
+			<a n:href="Homepage:default" style="color:black;"><i class="fa-solid fa-left-long fa-2x"></i></a>
+		</div>
+	</div>
+	<h3 style="text-align:right;margin:0 0 0 3em;">Garáž {$garage['jmeno']}</h3>	
+</div>
 
 <table class="table table-striped table-bordered" style="width:100%;margin-top:5rem;">
 	<thead>
@@ -209,5 +215,54 @@ $(document).ready(function(){
 	});
 });
 
+//animated back arrow
+$(document).ready(function(){
+	$('.back').mouseover(function(){
+		console.log('HOOVER');
+		$('.backArrow').animate(
+			{'left':'-=10px'},
+			);
+	});
+	$('.back').mouseout(function(){
+		console.log('HOOVER');
+		$('.backArrow').animate(
+			{'left':'+=10px'},
+			);
+	});
+	
+});
 </script>
+
+<style>
+  .backArrow {
+	/*left:30px;*/
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    margin: 0 0 0 0px;
+  }
+</style>
+{*
+.backArrow::after, .arrow::before {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 10px;
+  right: -8px;
+  background-color: #fff;
+}
+
+.backArrow::after {
+  top: -12px;
+  transform: rotate(45deg);
+}
+
+.backArrow::before {
+  top: 12px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, .2);
+  transform: rotate(-45deg);
+}
+</style>
+*}
+
 	
