@@ -1,5 +1,12 @@
 {block content}
-<h3>Servisní historie vozidla</h3>
+<div class="navTitle d-flex flex-direction: column">
+	<div class="backServisH">
+		<div class="backArrowServisH" title="zpět">
+		{dump $garageId}
+			<a n:href="Garage:default $garageId->muj_garaz_id" style="color:black;"><i class="fa-solid fa-left-long fa-2x"></i></a>
+		</div>
+	</div>
+	<h3  style="margin-left:40%;" class="mb-5">Servisní historie vozidla</h3></div>
 {dump $history}
 <div class="d-flex justify-content-between" id="servisHistoryList" style="margin-top:5em;">
 		<div class="vahicleData" >
@@ -48,5 +55,31 @@ let table = new DataTable('#servisTable', {
     // config options...
 });
 
+//animated back arrow
+$(document).ready(function(){
+	$('.backServisH').mouseover(function(){
+		console.log('HOOVER');
+		$('.backArrowServisH').animate(
+			{'left':'-=10px'},
+			);
+	});
+	$('.backServisH').mouseout(function(){
+		console.log('HOOVER');
+		$('.backArrowServisH').animate(
+			{'left':'+=10px'},
+			);
+	});
+	
+});
+
 </script>
+<style>
+  .backArrowServisH {
+	/*left:30px;*/
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    margin: auto;
+  }
+</style>
 {/block}

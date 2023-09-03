@@ -3,6 +3,7 @@ declare (strict_types=1);
 
 namespace App\Presenters;
 use App\Models\DatabaseModel;
+use Latte\Runtime\Template;
 
 class ServisHistoryPresenter extends BasePresenter
 {
@@ -27,6 +28,7 @@ class ServisHistoryPresenter extends BasePresenter
 		$this->template->mena = $mena;
 		$this->template->vehicleData = $vehicleData;
 		$this->template->history = $history;
+		$this->template->garageId = $this->model->getGarageIdByVehicleId($this->getParameter('id'));
 	}
 }
 ?>
