@@ -1,5 +1,14 @@
 {block content}
-<h3 style="margin:auto; margin-top:-3rem;" class="mb-5">Přidat servisní úkon </h3>
+<div class="navTitle d-flex flex-direction: column">
+	<div class="backAddServis">
+		<div class="backArrowAddServis" title="zpět">
+		{dump $garageId}
+			<a n:href="Garage:default $garageId->muj_garaz_id" style="color:black;"><i class="fa-solid fa-left-long fa-2x"></i></a>
+		</div>
+	</div>
+	<h3  style="margin-left:40%;" class="mb-5">Přidat servisní úkon </h3>{*style="margin:auto; margin-top:-3rem;">*}
+</div>
+{*<h3 style="margin:auto; margin-top:-3rem;" class="mb-5">Přidat servisní úkon </h3>*}
 
 <div class="container-fluid">
 	<div class="d-flex justify-content-ceanter" id="form" style="">
@@ -88,6 +97,30 @@ $(document).on('change', '#kmNext', function(){
 	}
   });
 
-
+//animated back arrow
+$(document).ready(function(){
+	$('.backAddServis').mouseover(function(){
+		console.log('HOOVER');
+		$('.backArrowAddServis').animate(
+			{'left':'-=10px'},
+			);
+	});
+	$('.backAddServis').mouseout(function(){
+		console.log('HOOVER');
+		$('.backArrowAddServis').animate(
+			{'left':'+=10px'},
+			);
+	});
+	
+});
 
 </script>
+<style>
+  .backArrowAddServis {
+	/*left:30px;*/
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    margin: auto;
+  }
+</style>

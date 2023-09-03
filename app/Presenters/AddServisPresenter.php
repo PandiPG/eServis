@@ -39,7 +39,7 @@ final class AddServisPresenter extends BasePresenter
 			unset($vehicleData['prevodovka']);
 			unset($vehicleData['kw']);
 		}
-
+		$this->template->garageId = $this->model->getGarageIdByVehicleId($this->getParameter('id'));
 		$this->template->vehicleData = $vehicleData;
 	}
 

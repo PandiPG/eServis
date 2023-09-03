@@ -266,6 +266,10 @@ class DatabaseModel {
 	{
 		return $this->database->fetchAll('SELECT * FROM servisni_ukon WHERE vozidlo_id=?', $vozidloId);
 	}
+
+	public function getGarageIdByVehicleId($id){
+		return $this->database->fetch('SELECT muj_garaz_id FROM vozidlo WHERE id=?', $id);
+	}
 }
 
 ?>
