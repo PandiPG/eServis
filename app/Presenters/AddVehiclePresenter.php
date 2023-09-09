@@ -40,7 +40,7 @@ final class AddVehiclePresenter extends BasePresenter
 		$categories = $form->addSelect('category', 'Kategorie', $this->model->getCategories())
 			->setRequired('%label je povinní pole.')
 			->setPrompt('Vyberte kategori');
-		//vyrobce zavusli na kategorie
+		//vyrobce zavisli na kategorie
 		$manufacturer = $form->addSelect('manufacturer', 'Výrobce')
 			->setRequired('%label je povinní pole.')
 			->setHtmlAttribute('data-depends', $categories->getHtmlName())
