@@ -69,10 +69,10 @@ final class LoginPresenter extends BasePresenter
 			$values = $form->getValues();
 			$values['password'] = $this->passwords->hash($values['password']);
 			$res = $this->model->addUser($values['name'], $values['password']);
-			$this->flashMessage('Registrace byla úspěšná.');
+			$this->flashMessage('Registrace byla úspěšná.', 'success');
 			$this->redirect('Login:');
 		} else {
-			$this->flashMessage('Uživatelské jméno již existue, zvolte jinou.');
+			$this->flashMessage('Uživatelské jméno již existue, zvolte jinou.', 'danger');
 		}
 	}
 
