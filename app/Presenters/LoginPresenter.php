@@ -49,10 +49,12 @@ final class LoginPresenter extends BasePresenter
 			->setRequired('Zadajte prosím %label')
 			->addRule($form::MIN_LENGTH, '%label musí obsahovat alespon %d znaku', 8)
 			->addCondition($form::MIN_LENGTH, 8);
+		$form->addPassword('passwordverify', 'Heslo podruhé:');
 		//->addRule($form::PATTERN, '%label musí obsahovat velké i malé písmo', '^[a-zA-Z]$')
 		//->addCondition($form::PATTERN, '^[a-zA-Z]*$')
 		//	->addRule($form::PATTERN, '%label musí obsahovat číslici', '.*[0-9].*');
-		$form->addSubmit('send', 'Registrovat');
+		$form->addSubmit('send', 'Registrovat')
+			->setHtmlAttribute('id', 'regSubmitBtn');
 		$form->onSuccess[] = [$this, 'formRegSended'];
 		return $form;
 	}

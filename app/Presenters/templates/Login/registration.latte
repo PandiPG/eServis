@@ -23,10 +23,17 @@
 							</div>
 							<div class="row mb-3">
 								{label password class: "col-sm-3 col-form-label" /}
-								{input password, class: "col-13 form-control" }
+								{input password, class: "col-13 form-control pass"}
+							</div>
+							<div class="row mb-3">
+								{label passwordverify class: "col-sm-6 col-form-label" /}
+								{input passwordverify, class: "col-13 form-control passverify" }
+							</div>
+							<div>
+								<p class="notsame col-13" style='display:none;text-align:center;color:red;'>Hesla nejsou shodná!</p>
 							</div>
 							<div class="row mb-3 justify-content-end ">
-								{input send, class: "col-5 btn btn-success", style:"margin-right:6rem"}
+								{input send, class: "col-5 btn btn-success", style:"margin-right:6rem", disabled:'true'}
 							</div>
 						</form>
 					</div>
@@ -34,3 +41,20 @@
 		</div>
   </div>
 </div>
+
+<script>
+
+	$('input').on('keyup', function(){
+		let pass = $('.pass').val();
+		let passverify = $('.passverify').val();
+		
+		if ( pass !== passverify ){
+			$('#regSubmitBtn').prop('disabled', true);
+			$('.notsame').show();
+		} else {
+			$('#regSubmitBtn').prop('disabled', false);
+			$('.notsame').hide();
+		}
+	});
+
+</script>
