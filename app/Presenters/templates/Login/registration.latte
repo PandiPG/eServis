@@ -15,7 +15,7 @@
   	{*{control logIn}*}
     <div class= container>
 			<div class="row justify-content-md-center">
-					<div class="col-10">
+					<div class="col-10 d-flex">
 						<form n:name=registration class=form>
 							<div class="row mb-3">
 								{label name class: "col-sm-6 col-form-label" /}
@@ -32,8 +32,8 @@
 							<div>
 								<p class="notsame col-13" style='display:none;text-align:center;color:red;'>Hesla nejsou shodná!</p>
 							</div>
-							<div class="row mb-3 justify-content-end ">
-								{input send, class: "col-6 btn btn-success", style:"margin-right:4rem", disabled:'true'}
+							<div class="row mb-3 justify-content-center">
+								{input send, class: "col-6 btn btn-success", disabled:'true'}
 							</div>
 						</form>
 					</div>

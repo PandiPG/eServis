@@ -20,7 +20,7 @@
 <body>
     <header class="d-flex flex-wrap align-items-center justify-content-center border-bottom">
 		<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between" style="width:80%;">
-			<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+			<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 left-menu">
 				<li><a n:href="Homepage:default" class="nav-link px-2" style="color:black;">Domu</a></li>
 				<li><a n:href="AddGarage:default" class="nav-link px-2" style="color:black;">Přidat garáž</a></li>
 				<li><a n:href="AddVehicle:default" class="nav-link px-2" style="color:black;">Přidat vozidlo</a></li>
@@ -30,7 +30,7 @@
 				<li><a href="#" class="nav-link px-2 link-dark">About</a></li>
 				*}
 			</ul>
-			<div class='d-flex justify-content-end'>               
+			<div class='d-flex justify-content-end right-menu'>               
 				{if $user->isLoggedIn()}
 					<a class="nav-link" style="color:black;" n:href="Homepage:out">Odhlásit</a>
 				{else}
@@ -53,7 +53,7 @@
 		</div>
 	</div>
 	<div class="fixed-bottom footer d-flex justify-content-center">
-            <span class="pe-2 border-right">FOOTER</b></span>
+            <span class="pe-2 border-right">&copy Gábor Pandi 2023</b></span>
     </div>
 
 		{block scripts}
@@ -68,13 +68,24 @@
 </body>
 </html>
 
-<script>	
-	$('.nav-link').hover(
-		function() {
-			$(this).css("color", "grey"); // Barva textu při najetí myší
-		},
-		function() {
-			$(this).css("color", "black"); // Barva textu po opuštění
+<script>
+
+	$( document ).ready(function() {
+		
+
+		$('.nav-link').hover(
+			function() {
+				$(this).css("color", "grey"); // Barva textu při najetí myší
+			},
+			function() {
+				$(this).css("color", "black"); // Barva textu po opuštění
+			}
+		);
+
+		let h2 = $('h2').text();
+		if (h2 === 'Přihlášení' || h2 === 'Registrace'){
+			$('.left-menu').hide();
+			$('.right-menu').css('flex', 'auto');
 		}
-	);
+	});
 </script>
